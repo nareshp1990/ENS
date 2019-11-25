@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Splash Screen -->
+    <dimen name="splash_logo_linear_layout_margin_top">10dp</dimen>
+    <dimen name="splash_logo_linear_layout_margin_bottom">10dp</dimen>
+    <dimen name="splash_logo_linear_layout_margin_left">30dp</dimen>
+    <dimen name="splash_logo_linear_layout_margin_right">30dp</dimen>
+
+    <dimen name="splash_logo_separation_view_height">2dp</dimen>
+    <dimen name="splash_logo_big_eng_text_size">50sp</dimen>
+    <dimen name="splash_logo_eng_text_size">25sp</dimen>
+    <dimen name="splash_logo_telugu_text_size">20sp</dimen>
+    <dimen name="splash_logo_telugu_text_padding_top">5dp</dimen>
+    <dimen name="splash_logo_telugu_text_padding_bottom">5dp</dimen>
+
+    <dimen name="splash_mobile_no_linear_layout_margin_top">40dp</dimen>
+    <dimen name="splash_mobile_no_linear_layout_margin_left">30dp</dimen>
+    <dimen name="splash_mobile_no_linear_layout_margin_right">30dp</dimen>
+    <dimen name="splash_mobile_no_linear_layout_margin_bottom">40dp</dimen>
+    <dimen name="splash_mobile_no_text_view_size">40sp</dimen>
+    <dimen name="splash_mobile_no_separation_view_height">2dp</dimen>
+
+    <dimen name="splash_tag_line_telugu_text_size">20sp</dimen>
+    <dimen name="splash_ens_web_url_text_size">20sp</dimen>
+
+    <dimen name="splash_bottom_tag_line_bottom_telugu_text_margin_right">70dp</dimen>
+    <dimen name="splash_bottom_tag_line_bottom_telugu_text_size">15sp</dimen>
+    <dimen name="splash_bottom_tag_line_top_telugu_text_margin_left">70dp</dimen>
+    <dimen name="splash_bottom_tag_line_top_telugu_text_size">15sp</dimen>
+    <dimen name="splash_bottom_tag_line_linear_layout_margin_top">100dp</dimen>
+    <!-- Splash Screen -->
+
+</resources>

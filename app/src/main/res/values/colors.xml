@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>-->
+
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="bg_color">#e8edf3</color>
+    <color name="red">#b56969</color>
+    <color name="blue">#22264b</color>
+    <color name="yellow">#f2b632</color>
+    <color name="shadow">#77BBBBBB</color>
+    <color name="grey">#e5e5e5</color>
+
+    <!-- Splash Screen -->
+    <color name="splash_logo_border_color">#FFFFFF</color>
+    <color name="splash_mobile_no_border_color">#1A237E</color>
+    <color name="splash_logo_eng_text_background_color">#D50000</color>
+    <color name="splash_logo_eng_text_color">#FFFFFF</color>
+    <color name="splash_logo_big_eng_text_color">#000000</color>
+    <color name="splash_logo_telugu_text_background_color">#1A237E</color>
+    <color name="splash_logo_telugu_text_color">#FFFFFF</color>
+    <!-- Splash Screen -->
+
+</resources>

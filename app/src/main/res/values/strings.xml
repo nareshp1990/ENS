@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">ENS</string>
+
+    <string name="home">Home</string>
+    <string name="News">News</string>
+    <string name="open_drawer">Drawer Open</string>
+    <string name="close_drawer">Drawer Close</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_logo_eng_text">EEROJU NEWS SERVICE</string>
+    <string name="splash_logo_big_eng_text">ENS</string>
+    <string name="splash_logo_telugu_text">ఇది తెలుగు ప్రజల గుండె చప్పుడు</string>
+    <string name="splash_text_mobile_no">9490280270</string>
+    <string name="splash_tag_line_telugu_text">నవ్యఆంధ్రప్రదేశ్ తొలి తెలుగు నేషనల్ న్యూస్ ఏజెన్సీ</string>
+    <string name="splash_ens_web_url_text">www.eerojunews.net</string>
+    <string name="splash_bottom_tag_line_top_telugu_text">వాస్తవాలకు కొలువు ...</string>
+    <string name="splash_bottom_tag_line_bottom_telugu_text">సాహసాలకు నెలవు ...</string>
+    <!-- Splash Screen -->
+
+</resources>
