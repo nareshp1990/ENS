@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.ens.adapters.CarouselViewListener;
 import com.ens.adapters.NewsCardViewAdapter;
 import com.ens.adapters.PollCardViewAdapter;
+import com.ens.adapters.VideoViewAdapter;
 import com.ens.adapters.YoutubeVideoAdapter;
 import com.ens.model.CarouselViewItem;
 import com.ens.model.NewsCardViewItem;
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.newsPollRecyclerView)
     private RecyclerView newsPollRecyclerView;
+
+    @BindView(R.id.ensVideoRecyclerView)
+    private RecyclerView ensVideoRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +151,13 @@ public class MainActivity extends AppCompatActivity {
         DividerItemDecoration newsPollCardRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         newsPollCardRecyclerViewItemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_vertical_devider));
         newsPollRecyclerView.addItemDecoration(newsPollCardRecyclerViewItemDecorator);
+
+
+        ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, prepareENSVideoViewItems()));
+        ensVideoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        DividerItemDecoration ensVideoRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        ensVideoRecyclerViewItemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_vertical_devider));
+        ensVideoRecyclerView.addItemDecoration(ensVideoRecyclerViewItemDecorator);
 
     }
 
@@ -254,6 +265,42 @@ public class MainActivity extends AppCompatActivity {
         pollCardItems.add(pollCardItem2);
 
         return pollCardItems;
+    }
+
+    private List<NewsCardViewItem> prepareENSVideoViewItems() {
+
+        List<NewsCardViewItem> newsCardViewItems = new ArrayList<>();
+
+        NewsCardViewItem newsCardViewItem = new NewsCardViewItem();
+        newsCardViewItem.setVideoThumbnailUrl("https://i2.wp.com/www.eerojunews.net/wp-content/uploads/2019/10/924a227b-b123-44dc-8a48-286667464e45.jpg");
+        newsCardViewItem.setHeadLine("గ్రామసచివాలయ ఉద్యోగులకు 14 నుంచి ప్రత్యేక శిక్షణ");
+        newsCardViewItem.setDescription("");
+        newsCardViewItem.setStrCreatedOn("October 5, 2019");
+        newsCardViewItem.setViews(1000);
+        newsCardViewItem.setLikes(234);
+        newsCardViewItem.setUnLikes(20);
+        newsCardViewItem.setComments(1290);
+        newsCardViewItem.setWhatsAppShares(35);
+        newsCardViewItem.setFacebookShares(900);
+
+        newsCardViewItems.add(newsCardViewItem);
+
+        NewsCardViewItem newsCardViewItem2 = new NewsCardViewItem();
+        newsCardViewItem2.setVideoThumbnailUrl("https://i1.wp.com/www.eerojunews.net/wp-content/uploads/2019/11/WhatsApp-Image-2019-11-27-at-4.57.24-PM.jpeg");
+        newsCardViewItem2.setHeadLine("పిహెచ్ సిల ఆధునీకరణకు అంచనాలు రూపొందించండి..ఐటిడి ఏ పి ఓ డికె బాలాజీ");
+        newsCardViewItem2.setDescription("");
+        newsCardViewItem2.setStrCreatedOn("November 28, 2019");
+        newsCardViewItem2.setViews(1020);
+        newsCardViewItem2.setLikes(2343);
+        newsCardViewItem2.setUnLikes(220);
+        newsCardViewItem2.setComments(120);
+        newsCardViewItem2.setWhatsAppShares(350);
+        newsCardViewItem2.setFacebookShares(9043);
+
+        newsCardViewItems.add(newsCardViewItem2);
+
+
+        return newsCardViewItems;
     }
 
 }

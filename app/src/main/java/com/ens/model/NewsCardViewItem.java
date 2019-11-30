@@ -17,6 +17,10 @@ public class NewsCardViewItem {
     private List<Comment> commentList;
     private String createdOn;
     private String strCreatedOn;
+    private String videoThumbnailUrl;
+    private String videoUrl;
+    private String videoDuration;
+    private String videoSize;
 
     public String getPostId() {
         return postId;
@@ -120,6 +124,38 @@ public class NewsCardViewItem {
 
     public void setStrCreatedOn(String strCreatedOn) {
         this.strCreatedOn = strCreatedOn;
+    }
+
+    public String getVideoThumbnailUrl() {
+        return videoThumbnailUrl;
+    }
+
+    public void setVideoThumbnailUrl(String videoThumbnailUrl) {
+        this.videoThumbnailUrl = videoThumbnailUrl;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public String getVideoDuration() {
+        return videoDuration;
+    }
+
+    public void setVideoDuration(String videoDuration) {
+        this.videoDuration = videoDuration;
+    }
+
+    public String getVideoSize() {
+        return videoSize;
+    }
+
+    public void setVideoSize(String videoSize) {
+        this.videoSize = videoSize;
     }
 
     public class Comment {
