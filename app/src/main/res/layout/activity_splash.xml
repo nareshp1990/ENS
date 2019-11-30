@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activities.SplashActivity">
 
-    <include layout="@layout/logo_ens"/>
+    <include layout="@layout/logo_ens" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,23 +46,23 @@
             android:id="@+id/splash_tag_line_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/splash_tag_line_telugu_text_size"
-            android:singleLine="true"
             android:ellipsize="marquee"
-            android:marqueeRepeatLimit ="marquee_forever"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
             android:gravity="center_horizontal|center_vertical"
-            android:text="@string/splash_tag_line_telugu_text"/>
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@string/splash_tag_line_telugu_text"
+            android:textSize="@dimen/splash_tag_line_telugu_text_size" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/splash_ens_web_url_text_size"
+            android:autoLink="web"
             android:gravity="center_horizontal|center_vertical"
             android:text="@string/splash_ens_web_url_text"
-            android:autoLink="web"/>
+            android:textSize="@dimen/splash_ens_web_url_text_size" />
 
     </LinearLayout>
 
@@ -75,18 +75,18 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/splash_bottom_tag_line_top_telugu_text_size"
             android:layout_marginLeft="@dimen/splash_bottom_tag_line_top_telugu_text_margin_left"
             android:gravity="left|center_vertical"
-            android:text="@string/splash_bottom_tag_line_top_telugu_text"/>
+            android:text="@string/splash_bottom_tag_line_top_telugu_text"
+            android:textSize="@dimen/splash_bottom_tag_line_top_telugu_text_size" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/splash_bottom_tag_line_bottom_telugu_text_size"
             android:layout_marginRight="@dimen/splash_bottom_tag_line_bottom_telugu_text_margin_right"
             android:gravity="right|center_vertical"
-            android:text="@string/splash_bottom_tag_line_bottom_telugu_text"/>
+            android:text="@string/splash_bottom_tag_line_bottom_telugu_text"
+            android:textSize="@dimen/splash_bottom_tag_line_bottom_telugu_text_size" />
 
     </LinearLayout>
 

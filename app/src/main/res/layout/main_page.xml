@@ -13,22 +13,24 @@
 
         <TextView
             android:id="@+id/scrollTextView"
-            android:text="Single-line text view that scrolls automatically if the text is too long to fit in the widget"
-            android:layoutDirection="ltr"
-            android:textDirection="ltr"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit ="marquee_forever"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layoutDirection="ltr"
+            android:marqueeRepeatLimit="marquee_forever"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            android:text="తాజా వార్తలు, విశ్లేషణల కోసం ఈరోజున్యూస్.నెట్ www.eerojunews.net ను సంప్రదించండి|| వెబ్ చానెల్ వార్తల కోసం EEROJU NEWS SERVICE యూట్యూబ్ ను సందర్శించగలరు|| వార్తలను అభిమానించే వారంతా యూట్యూబులోని EEROJU NEWS SERVICE చానల్ ని SUBSCRIBE చేయండి|| మీ యొక్క నూతన సంస్థల ప్రారంభం, అభివ్రుధ్ధి కార్యక్రమాలు, సంస్థల ప్రెస్ మీట్లను ఈరోజు న్యూస్ సర్వీసు ద్వారా చేయించుకొని విషయాన్ని, సమాచారాన్ని అత్యధిక మీడియా సంస్థల ద్వారా ప్రజలకు తెలియజేసుకునే సదుపాయం పొందండి|| మరిన్ని వివరాలకు 9490280270లో సంప్రదించగలరు"
+            android:textDirection="ltr" />
 
         <com.synnapps.carouselview.CarouselView
-            android:id="@+id/carouselView"
+            android:id="@+id/mainPageCarouselView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             app:fillColor="#FFFFFFFF"
@@ -36,11 +38,35 @@
             app:radius="6dp"
             app:slideInterval="3000"
             app:strokeColor="#FF777777"
-            app:strokeWidth="1dp"/>
-        <com.google.android.youtube.player.YouTubePlayerView
-            android:id="@+id/youtubePlayerView"
+            app:strokeWidth="1dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/youtubeThumbnailRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:clipToPadding="false"
+            android:scrollbars="horizontal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/newsCardRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:clipToPadding="false"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/newsPollRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:clipToPadding="false"/>
 
     </LinearLayout>
 

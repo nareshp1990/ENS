@@ -27,10 +27,10 @@ public class DrawerMenuItem {
     private Context mContext;
     private DrawerCallBack mCallBack;
 
-    @View(R.id.itemNameTxt)
+    @View(R.id.navDrawerMenuItemTextView)
     private TextView itemNameTxt;
 
-    @View(R.id.itemIcon)
+    @View(R.id.navDrawerMenuItemIcon)
     private ImageView itemIcon;
 
     public DrawerMenuItem(Context context, int menuPosition) {
@@ -76,7 +76,7 @@ public class DrawerMenuItem {
         }
     }
 
-    @Click(R.id.mainView)
+    @Click(R.id.navDrawerMenuView)
     private void onMenuItemClick() {
         switch (mMenuPosition) {
             case DRAWER_MENU_ITEM_PROFILE:

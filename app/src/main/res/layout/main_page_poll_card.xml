@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/txtPollQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:text="How long have you used our products/service?"
+            android:textSize="15sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupPoll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <RadioButton
+                android:id="@+id/rdbOption1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Less than 6 months" />
+
+            <RadioButton
+                android:id="@+id/rdbOption2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 year to less than 3 years" />
+
+            <RadioButton
+                android:id="@+id/rdbOption3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3 years to less than 5 years" />
+
+            <RadioButton
+                android:id="@+id/rdbOption4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5 years or more" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/txtPollQuestionCreatedOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 Dec 2019"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/txtTotalVotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="500 votes"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

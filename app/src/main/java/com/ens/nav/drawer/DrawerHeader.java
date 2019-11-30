@@ -4,22 +4,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ens.R;
+import com.mindorks.butterknifelite.annotations.BindView;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
-import com.mindorks.placeholderview.annotations.View;
 
 @NonReusable
 @Layout(R.layout.drawer_header)
 public class DrawerHeader {
 
-    @View(R.id.profileImageView)
+    @BindView(R.id.userProfileImageView)
     private ImageView profileImage;
 
-    @View(R.id.nameTxt)
+    @BindView(R.id.userNameTextView)
     private TextView nameTxt;
 
-    @View(R.id.emailTxt)
+    @BindView(R.id.userEmailTextView)
     private TextView emailTxt;
 
     @Resolve
