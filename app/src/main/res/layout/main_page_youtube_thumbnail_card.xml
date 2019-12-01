@@ -4,11 +4,10 @@
     android:layout_width="120dp"
     android:layout_height="wrap_content"
     app:cardCornerRadius="3dp"
-    app:cardUseCompatPadding="true"
     app:cardElevation="3dp"
-    app:contentPadding="5dp"
-    app:contentPaddingBottom="0dp"
-    app:cardPreventCornerOverlap="true">
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,10 +21,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/youtube_play_icon"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            />
+            android:src="@drawable/youtube_play_icon" />
 
     </RelativeLayout>
 

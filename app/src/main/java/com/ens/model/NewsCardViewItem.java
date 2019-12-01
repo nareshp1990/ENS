@@ -1,8 +1,9 @@
 package com.ens.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class NewsCardViewItem {
+public class NewsCardViewItem implements Serializable {
 
     private String postId;
     private String imageUrl;

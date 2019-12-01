@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/footerLayout"
+        android:layout_alignParentTop="true">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+
+                <ImageView
+                    android:id="@+id/imgDetailedView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ens_card"
+                    app:layout_collapseMode="parallax" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="parallax" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/txtNewsCardHeadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="అల్లూరి చరిత్ర పరిశోధకులు బాలు"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <include layout="@layout/news_card_views_view" />
+
+                <TextView
+                    android:id="@+id/txtNewsCardDetailedViewDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="అమెరికా తానామహాసభల్లో విప్లవ వీరుడు అల్లూరి సీతారామరాజు ప్రపంచ చరిత్రను తెలియజేసేందకు ఏర్పాట్లు జరుగుతున్నాయని అల్లూరి యువజన సంఘం జాతీయ కార్యవర్గ సభ్యులు, అల్లూరి చరిత్రపరిశోధకులు ఈఎన్ఎస్ బాలు తెలియజేశారు. విశాఖలో ఆయన మీడియాతో మాట్లాడుతూ, అల్లూరి సంచరించిన ప్రదేశాలతో కూడిన
+డాక్యుమెంటరీని కూడా అక్కడ ప్రదర్శించడానికి అమెరికాలోని ప్రవాస భారతీయులతో చర్చలు జరుపుతున్నట్టు ఆయన వివరించారు. అల్లూరి సంచరించిన ప్రదేశాలు, తెల్లవాడిపై సీతారామరాజు మన్యం పితూరి ఉద్యమం చేసిన క్రిష్ణదేవిట ప్రాంతం, రంపచోడవరం, అల్లూరి
+సమాధులు, ఆయన రహస్య సమావేశాలు నిర్వహించిన ప్రదేశాలు, అల్లూరి ప్రధాన అనచరులు గాం గంటం దొర, మల్లు దొరలు పుట్టిన ప్రదేశాలతో సైతం ఈ డాక్యుమెంటరీని రూపొందించడం జరిగిందన్నారు. అమెరికాలో ఉన్న తెలుగువారికి అల్లూరి వీరోచిత. అమెరికా తానామహాసభల్లో విప్లవ వీరుడు అల్లూరి సీతారామరాజు ప్రపంచ చరిత్రను తెలియజేసేందకు ఏర్పాట్లు జరుగుతున్నాయని అల్లూరి యువజన సంఘం జాతీయ కార్యవర్గ సభ్యులు, అల్లూరి చరిత్రపరిశోధకులు ఈఎన్ఎస్ బాలు తెలియజేశారు. విశాఖలో ఆయన మీడియాతో మాట్లాడుతూ, అల్లూరి సంచరించిన ప్రదేశాలతో కూడిన
+డాక్యుమెంటరీని కూడా అక్కడ ప్రదర్శించడానికి అమెరికాలోని ప్రవాస భారతీయులతో చర్చలు జరుపుతున్నట్టు ఆయన వివరించారు. అల్లూరి సంచరించిన ప్రదేశాలు, తెల్లవాడిపై సీతారామరాజు మన్యం పితూరి ఉద్యమం చేసిన క్రిష్ణదేవిట ప్రాంతం, రంపచోడవరం, అల్లూరి
+సమాధులు, ఆయన రహస్య సమావేశాలు నిర్వహించిన ప్రదేశాలు, అల్లూరి ప్రధాన అనచరులు గాం గంటం దొర, మల్లు దొరలు పుట్టిన ప్రదేశాలతో సైతం ఈ డాక్యుమెంటరీని రూపొందించడం జరిగిందన్నారు. అమెరికాలో ఉన్న తెలుగువారికి అల్లూరి వీరోచిత" />
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:id="@+id/footerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:background="#CFCECD" />
+
+        <include
+            layout="@layout/news_card_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

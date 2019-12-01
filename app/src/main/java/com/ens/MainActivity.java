@@ -3,6 +3,7 @@ package com.ens;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ens.adapters.CarouselViewListener;
 import com.ens.adapters.NewsCardViewAdapter;
@@ -15,6 +16,7 @@ import com.ens.model.PollCardItem;
 import com.ens.model.YoutubeVideoItem;
 import com.ens.nav.drawer.DrawerHeader;
 import com.ens.nav.drawer.DrawerMenuItem;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mindorks.butterknifelite.ButterKnifeLite;
 import com.mindorks.butterknifelite.annotations.BindView;
 import com.mindorks.placeholderview.PlaceHolderView;
@@ -26,9 +28,7 @@ import java.util.List;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.ensVideoRecyclerView)
     private RecyclerView ensVideoRecyclerView;
+
+    @BindView(R.id.fabPostNews)
+    private FloatingActionButton fabPostNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,30 +137,18 @@ public class MainActivity extends AppCompatActivity {
         // End Main Page Carousel View
 
         youtubeThumbnailRecyclerView.setAdapter(new YoutubeVideoAdapter(prepareYoutubeVideoItems(), this));
-        youtubeThumbnailRecyclerView.setHasFixedSize(true);
         youtubeThumbnailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        /*DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL);
-        itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_horizontal_devider));
-        youtubeThumbnailRecyclerView.addItemDecoration(itemDecorator);*/
 
         newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, prepareNewsCardViewItems()));
         newsCardRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        /*DividerItemDecoration newsCardRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        newsCardRecyclerViewItemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_vertical_devider));
-        newsCardRecyclerView.addItemDecoration(newsCardRecyclerViewItemDecorator);*/
 
         newsPollRecyclerView.setAdapter(new PollCardViewAdapter(this, preparePollCardItems()));
         newsPollRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        /*DividerItemDecoration newsPollCardRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        newsPollCardRecyclerViewItemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_vertical_devider));
-        newsPollRecyclerView.addItemDecoration(newsPollCardRecyclerViewItemDecorator);*/
-
 
         ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, prepareENSVideoViewItems()));
         ensVideoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        /*DividerItemDecoration ensVideoRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        ensVideoRecyclerViewItemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_vertical_devider));
-        ensVideoRecyclerView.addItemDecoration(ensVideoRecyclerViewItemDecorator);*/
+
+        fabPostNews.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "Create News", Toast.LENGTH_SHORT).show());
 
     }
 

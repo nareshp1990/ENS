@@ -12,25 +12,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ExoPlayerActivity"></activity>
+        <activity android:name=".activities.NewsCardDetailedActivity"></activity>
+        <activity android:name=".activities.ExoPlayerActivity" />
         <activity android:name=".activities.YoutubePlayerActivity" />
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashScreenTheme">
-
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
         <activity android:name=".MainActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
     </application>
 

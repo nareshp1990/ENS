@@ -1,6 +1,7 @@
 package com.ens.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ens.R;
+import com.ens.activities.NewsCardDetailedActivity;
 import com.ens.model.NewsCardViewItem;
 
 import java.util.List;
@@ -69,6 +71,7 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
         private LinearLayout layoutFacebookShare;
         private LinearLayout layoutInstagramShare;
         private LinearLayout layoutHelloAppShare;
+        private LinearLayout touchViewLayout;
 
         public NewsCardViewHolder(@NonNull View view) {
             super(view);
@@ -94,6 +97,7 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
             layoutFacebookShare = view.findViewById(R.id.layoutFacebookShare);
             layoutHelloAppShare = view.findViewById(R.id.layoutHelloAppShare);
             layoutInstagramShare = view.findViewById(R.id.layoutInstagramShare);
+            touchViewLayout = view.findViewById(R.id.touchViewLayout);
 
         }
 
@@ -114,8 +118,17 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
             txtNewsCardHelloAppShareCount.setText(String.valueOf(newsCardViewItem.getHelloAppShares()));
 
             layoutLike.setOnClickListener(v -> Toast.makeText(context, String.valueOf(newsCardViewItem.getLikes()), Toast.LENGTH_LONG).show());
+            touchViewLayout.setOnClickListener(v -> openDetailedNewsActivity(newsCardViewItem));
 
         }
+
+    }
+
+    private void openDetailedNewsActivity(final NewsCardViewItem newsCardViewItem) {
+
+        Intent intent = new Intent(context, NewsCardDetailedActivity.class);
+        intent.putExtra("news_card_item",newsCardViewItem);
+        context.startActivity(intent);
 
     }
 
