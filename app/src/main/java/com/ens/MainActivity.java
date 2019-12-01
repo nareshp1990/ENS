@@ -136,28 +136,28 @@ public class MainActivity extends AppCompatActivity {
         youtubeThumbnailRecyclerView.setAdapter(new YoutubeVideoAdapter(prepareYoutubeVideoItems(), this));
         youtubeThumbnailRecyclerView.setHasFixedSize(true);
         youtubeThumbnailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL);
+        /*DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL);
         itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_horizontal_devider));
-        youtubeThumbnailRecyclerView.addItemDecoration(itemDecorator);
+        youtubeThumbnailRecyclerView.addItemDecoration(itemDecorator);*/
 
         newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, prepareNewsCardViewItems()));
         newsCardRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        DividerItemDecoration newsCardRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        /*DividerItemDecoration newsCardRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         newsCardRecyclerViewItemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_vertical_devider));
-        newsCardRecyclerView.addItemDecoration(newsCardRecyclerViewItemDecorator);
+        newsCardRecyclerView.addItemDecoration(newsCardRecyclerViewItemDecorator);*/
 
         newsPollRecyclerView.setAdapter(new PollCardViewAdapter(this, preparePollCardItems()));
         newsPollRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        DividerItemDecoration newsPollCardRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        /*DividerItemDecoration newsPollCardRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         newsPollCardRecyclerViewItemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_vertical_devider));
-        newsPollRecyclerView.addItemDecoration(newsPollCardRecyclerViewItemDecorator);
+        newsPollRecyclerView.addItemDecoration(newsPollCardRecyclerViewItemDecorator);*/
 
 
         ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, prepareENSVideoViewItems()));
         ensVideoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        DividerItemDecoration ensVideoRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        /*DividerItemDecoration ensVideoRecyclerViewItemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         ensVideoRecyclerViewItemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.recyclerview_vertical_devider));
-        ensVideoRecyclerView.addItemDecoration(ensVideoRecyclerViewItemDecorator);
+        ensVideoRecyclerView.addItemDecoration(ensVideoRecyclerViewItemDecorator);*/
 
     }
 
@@ -201,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
         newsCardViewItem.setComments(1290);
         newsCardViewItem.setWhatsAppShares(35);
         newsCardViewItem.setFacebookShares(900);
+        newsCardViewItem.setInstagramShares(9080);
+        newsCardViewItem.setHelloAppShares(9034);
 
         newsCardViewItems.add(newsCardViewItem);
 
@@ -220,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
         newsCardViewItem2.setComments(120);
         newsCardViewItem2.setWhatsAppShares(350);
         newsCardViewItem2.setFacebookShares(9043);
+        newsCardViewItem2.setInstagramShares(9343);
+        newsCardViewItem2.setHelloAppShares(9023);
 
         newsCardViewItems.add(newsCardViewItem2);
 
@@ -282,6 +286,9 @@ public class MainActivity extends AppCompatActivity {
         newsCardViewItem.setComments(1290);
         newsCardViewItem.setWhatsAppShares(35);
         newsCardViewItem.setFacebookShares(900);
+        newsCardViewItem.setInstagramShares(9080);
+        newsCardViewItem.setHelloAppShares(9034);
+        newsCardViewItem.setVideoUrl("https://androidwave.com/media/androidwave-video-exo-player.mp4");
 
         newsCardViewItems.add(newsCardViewItem);
 
@@ -296,6 +303,10 @@ public class MainActivity extends AppCompatActivity {
         newsCardViewItem2.setComments(120);
         newsCardViewItem2.setWhatsAppShares(350);
         newsCardViewItem2.setFacebookShares(9043);
+        newsCardViewItem2.setInstagramShares(9343);
+        newsCardViewItem2.setHelloAppShares(9023);
+
+        newsCardViewItem2.setVideoUrl("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
 
         newsCardViewItems.add(newsCardViewItem2);
 

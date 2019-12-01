@@ -59,12 +59,16 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
         private TextView txtNewsCardCommentsCount;
         private TextView txtNewsCardWhatsAppShareCount;
         private TextView txtNewsCardFacebookShareCount;
+        private TextView txtNewsCardHelloAppShareCount;
+        private TextView txtNewsCardInstagramShareCount;
 
         private LinearLayout layoutLike;
         private LinearLayout layoutUnLike;
         private LinearLayout layoutComments;
         private LinearLayout layoutWhatsappShare;
         private LinearLayout layoutFacebookShare;
+        private LinearLayout layoutInstagramShare;
+        private LinearLayout layoutHelloAppShare;
 
         public NewsCardViewHolder(@NonNull View view) {
             super(view);
@@ -80,12 +84,16 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
             txtNewsCardCommentsCount = view.findViewById(R.id.txtNewsCardCommentsCount);
             txtNewsCardWhatsAppShareCount = view.findViewById(R.id.txtNewsCardWhatsAppShareCount);
             txtNewsCardFacebookShareCount = view.findViewById(R.id.txtNewsCardFacebookShareCount);
+            txtNewsCardInstagramShareCount = view.findViewById(R.id.txtNewsCardInstagramShareCount);
+            txtNewsCardHelloAppShareCount = view.findViewById(R.id.txtNewsCardHelloAppShareCount);
 
             layoutLike = view.findViewById(R.id.layoutLike);
             layoutUnLike = view.findViewById(R.id.layoutUnLike);
             layoutComments = view.findViewById(R.id.layoutComments);
             layoutWhatsappShare = view.findViewById(R.id.layoutWhatsappShare);
             layoutFacebookShare = view.findViewById(R.id.layoutFacebookShare);
+            layoutHelloAppShare = view.findViewById(R.id.layoutHelloAppShare);
+            layoutInstagramShare = view.findViewById(R.id.layoutInstagramShare);
 
         }
 
@@ -102,8 +110,10 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
             txtNewsCardCommentsCount.setText(String.valueOf(newsCardViewItem.getComments()));
             txtNewsCardWhatsAppShareCount.setText(String.valueOf(newsCardViewItem.getWhatsAppShares()));
             txtNewsCardFacebookShareCount.setText(String.valueOf(newsCardViewItem.getFacebookShares()));
+            txtNewsCardInstagramShareCount.setText(String.valueOf(newsCardViewItem.getInstagramShares()));
+            txtNewsCardHelloAppShareCount.setText(String.valueOf(newsCardViewItem.getHelloAppShares()));
 
-            layoutLike.setOnClickListener(v -> Toast.makeText(context,String.valueOf(newsCardViewItem.getLikes()),Toast.LENGTH_LONG).show());
+            layoutLike.setOnClickListener(v -> Toast.makeText(context, String.valueOf(newsCardViewItem.getLikes()), Toast.LENGTH_LONG).show());
 
         }
 

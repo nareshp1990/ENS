@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ens.R;
 import com.ens.model.PollCardItem;
+import com.skydoves.progressview.ProgressView;
 
 import java.util.List;
 
@@ -54,6 +56,7 @@ public class PollCardViewAdapter extends RecyclerView.Adapter<PollCardViewAdapte
         private RadioButton rdbOption4;
         private TextView txtPollQuestionCreatedOn;
         private TextView txtTotalVotes;
+        private ProgressView pollProgressView;
 
         public PollCardViewHolder(@NonNull View view) {
             super(view);
@@ -68,6 +71,7 @@ public class PollCardViewAdapter extends RecyclerView.Adapter<PollCardViewAdapte
 
             txtPollQuestionCreatedOn = view.findViewById(R.id.txtPollQuestionCreatedOn);
             txtTotalVotes = view.findViewById(R.id.txtTotalVotes);
+            pollProgressView = view.findViewById(R.id.pollProgressView);
 
         }
 
@@ -81,8 +85,9 @@ public class PollCardViewAdapter extends RecyclerView.Adapter<PollCardViewAdapte
             rdbOption4.setText(pollCardItem.getOption4() + "  ( " + pollCardItem.getOption4Votes() + " votes )");
 
             txtPollQuestionCreatedOn.setText(pollCardItem.getStrPollCreatedOn());
-            txtTotalVotes.setText(String.valueOf(pollCardItem.getTotalVotes()) + " votes");
+            txtTotalVotes.setText(pollCardItem.getTotalVotes() + " votes");
 
+            pollProgressView.setOnClickListener(v -> Toast.makeText(context, pollCardItem.getOption1(), Toast.LENGTH_SHORT).show());
         }
 
     }

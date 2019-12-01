@@ -14,6 +14,8 @@ public class NewsCardViewItem {
     private int comments;
     private int whatsAppShares;
     private int facebookShares;
+    private int helloAppShares;
+    private int instagramShares;
     private List<Comment> commentList;
     private String createdOn;
     private String strCreatedOn;
@@ -100,6 +102,22 @@ public class NewsCardViewItem {
 
     public void setFacebookShares(int facebookShares) {
         this.facebookShares = facebookShares;
+    }
+
+    public int getHelloAppShares() {
+        return helloAppShares;
+    }
+
+    public void setHelloAppShares(int helloAppShares) {
+        this.helloAppShares = helloAppShares;
+    }
+
+    public int getInstagramShares() {
+        return instagramShares;
+    }
+
+    public void setInstagramShares(int instagramShares) {
+        this.instagramShares = instagramShares;
     }
 
     public List<Comment> getCommentList() {
