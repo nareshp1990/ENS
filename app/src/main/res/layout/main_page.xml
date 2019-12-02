@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eceff1"
     android:fillViewport="true"
     android:scrollbars="vertical">
 
@@ -27,7 +28,8 @@
             android:text="తాజా వార్తలు, విశ్లేషణల కోసం ఈరోజున్యూస్.నెట్ www.eerojunews.net ను సంప్రదించండి|| వెబ్ చానెల్ వార్తల కోసం EEROJU NEWS SERVICE యూట్యూబ్ ను సందర్శించగలరు|| వార్తలను అభిమానించే వారంతా యూట్యూబులోని EEROJU NEWS SERVICE చానల్ ని SUBSCRIBE చేయండి|| మీ యొక్క నూతన సంస్థల ప్రారంభం, అభివ్రుధ్ధి కార్యక్రమాలు, సంస్థల ప్రెస్ మీట్లను ఈరోజు న్యూస్ సర్వీసు ద్వారా చేయించుకొని విషయాన్ని, సమాచారాన్ని అత్యధిక మీడియా సంస్థల ద్వారా ప్రజలకు తెలియజేసుకునే సదుపాయం పొందండి|| మరిన్ని వివరాలకు 9490280270లో సంప్రదించగలరు"
             android:textColor="@color/red"
             android:textDirection="ltr"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:gravity="center_vertical"/>
 
         <com.synnapps.carouselview.CarouselView
             android:id="@+id/mainPageCarouselView"
@@ -44,33 +46,22 @@
             android:id="@+id/youtubeThumbnailRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp" />
+            android:layout_marginTop="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/newsCardRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp" />
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/newsPollRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp" />
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ensVideoRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

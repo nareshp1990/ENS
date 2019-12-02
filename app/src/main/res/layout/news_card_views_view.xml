@@ -1,30 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dp">
 
-    <TextView
-        android:id="@+id/txtNewsCardCreatedOn"
+
+    <com.github.abdularis.civ.CircleImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/img_ens_logo" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="2 hours ago"
-        android:textSize="10sp"/>
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/txtNewsCardPostedBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Naresh Patchipulusu"
+            android:textColor="#0423D3"
+            android:textSize="13sp"
+            android:maxLength="25"/>
+
+        <TextView
+            android:id="@+id/txtNewsCardCreatedOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="2 hours ago"
+            android:textSize="10sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:gravity="right"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:src="@drawable/icon_watch"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_watch" />
 
         <TextView
             android:id="@+id/txtNewsCardViewsCount"
@@ -33,7 +59,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:text="12030"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,7 +67,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:text="Views"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
 
     </LinearLayout>
 
