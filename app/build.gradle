@@ -9,7 +9,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -39,11 +45,12 @@ dependencies {
     implementation 'com.github.abdularis:circularimageview:1.4'
     implementation 'com.squareup.retrofit2:retrofit:2.7.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.7.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.2.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
     implementation  group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
     implementation  group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
     implementation  group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.1'
+    implementation  group: 'de.greenrobot', name: 'eventbus', version: '2.4.1'
     compileOnly "org.projectlombok:lombok:1.18.10"
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'

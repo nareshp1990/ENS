@@ -10,6 +10,7 @@ import com.ens.adapters.NewsCardViewAdapter;
 import com.ens.adapters.PollCardViewAdapter;
 import com.ens.adapters.VideoViewAdapter;
 import com.ens.adapters.YoutubeVideoAdapter;
+import com.ens.config.ENSApplication;
 import com.ens.model.CarouselViewItem;
 import com.ens.model.NewsCardViewItem;
 import com.ens.model.PollCardItem;
@@ -31,6 +32,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import de.greenrobot.event.EventBus;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -76,6 +78,34 @@ public class MainActivity extends AppCompatActivity {
         initializePage();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ENSApplication.activityPaused();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ENSApplication.activityResumed();
+    }
+
+    public void onEvent(Boolean isInternetAvailable){
+        Toast.makeText(this, isInternetAvailable ? "Internet Available" : "Internet Not Available", Toast.LENGTH_SHORT).show();
+    }
+
     public void hideToolbarTitle() {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -116,11 +146,6 @@ public class MainActivity extends AppCompatActivity {
         //remove drawer icon
         drawerToggle.setDrawerIndicatorEnabled(false);
         drawerToggle.setHomeAsUpIndicator(null);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     private void initializePage() {
