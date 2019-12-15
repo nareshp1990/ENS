@@ -9,8 +9,8 @@ import com.ens.model.api.ApiResponse;
 import com.ens.model.api.PagedResponse;
 import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
-import com.ens.model.news.NewsItemActionResponse;
-import com.ens.model.news.NewsItemResponse;
+import com.ens.model.news.NewsItemAction;
+import com.ens.model.news.NewsItem;
 
 import java.util.UUID;
 
@@ -60,11 +60,11 @@ public class NewsService {
 
     public void postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType){
 
-        Call<NewsItemActionResponse> newsItemActionResponseCall = newsApi.postNewsItemAction(userId, newsItemId, actionType);
+        Call<NewsItemAction> newsItemActionResponseCall = newsApi.postNewsItemAction(userId, newsItemId, actionType);
 
-        newsItemActionResponseCall.enqueue(new Callback<NewsItemActionResponse>() {
+        newsItemActionResponseCall.enqueue(new Callback<NewsItemAction>() {
             @Override
-            public void onResponse(Call<NewsItemActionResponse> call, Response<NewsItemActionResponse> response) {
+            public void onResponse(Call<NewsItemAction> call, Response<NewsItemAction> response) {
 
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
@@ -76,7 +76,7 @@ public class NewsService {
             }
 
             @Override
-            public void onFailure(Call<NewsItemActionResponse> call, Throwable t) {
+            public void onFailure(Call<NewsItemAction> call, Throwable t) {
                 Toast.makeText(context,"Error while posting news item action",Toast.LENGTH_LONG).show();
             }
         });
@@ -85,11 +85,11 @@ public class NewsService {
 
     public void getAllNewsItems(UUID userId, ContentType contentType, int page, int size){
 
-        Call<PagedResponse<NewsItemResponse>> pagedResponseCall = newsApi.getAllNewsItems(userId, contentType, page, size);
+        Call<PagedResponse<NewsItem>> pagedResponseCall = newsApi.getAllNewsItems(userId, contentType, page, size);
 
-        pagedResponseCall.enqueue(new Callback<PagedResponse<NewsItemResponse>>() {
+        pagedResponseCall.enqueue(new Callback<PagedResponse<NewsItem>>() {
             @Override
-            public void onResponse(Call<PagedResponse<NewsItemResponse>> call, Response<PagedResponse<NewsItemResponse>> response) {
+            public void onResponse(Call<PagedResponse<NewsItem>> call, Response<PagedResponse<NewsItem>> response) {
 
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
@@ -101,7 +101,7 @@ public class NewsService {
             }
 
             @Override
-            public void onFailure(Call<PagedResponse<NewsItemResponse>> call, Throwable t) {
+            public void onFailure(Call<PagedResponse<NewsItem>> call, Throwable t) {
                 Toast.makeText(context,"Error while fetching news items",Toast.LENGTH_LONG).show();
             }
         });

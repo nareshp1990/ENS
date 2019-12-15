@@ -4,8 +4,8 @@ import com.ens.model.api.ApiResponse;
 import com.ens.model.api.PagedResponse;
 import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
-import com.ens.model.news.NewsItemActionResponse;
-import com.ens.model.news.NewsItemResponse;
+import com.ens.model.news.NewsItemAction;
+import com.ens.model.news.NewsItem;
 
 import java.util.UUID;
 
@@ -25,9 +25,9 @@ public interface NewsApi {
 
     @FormUrlEncoded
     @POST("/v1/api/news/{userId}/{newsItemId}/action")
-    Call<NewsItemActionResponse> postNewsItemAction(@Path("userId") UUID userId, @Path("newsItemId") UUID newsItemId, @Field("actionType")ActionType actionType);
+    Call<NewsItemAction> postNewsItemAction(@Path("userId") UUID userId, @Path("newsItemId") UUID newsItemId, @Field("actionType")ActionType actionType);
 
     @GET("/v1/api/news/{userId}")
-    Call<PagedResponse<NewsItemResponse>> getAllNewsItems(@Path("userId") UUID userId, @Query("contentType")ContentType contentType, @Query("page") int page, @Query("size") int size);
+    Call<PagedResponse<NewsItem>> getAllNewsItems(@Path("userId") UUID userId, @Query("contentType")ContentType contentType, @Query("page") int page, @Query("size") int size);
 
 }

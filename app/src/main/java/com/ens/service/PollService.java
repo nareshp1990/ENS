@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import com.ens.api.PollApi;
 import com.ens.model.api.PagedResponse;
-import com.ens.model.poll.PollResponse;
+import com.ens.model.poll.Poll;
 import com.ens.model.poll.VoteRequest;
 
 import java.util.UUID;
@@ -32,11 +32,11 @@ public class PollService {
 
     public void getPolls(UUID userId, int page, int size){
 
-        Call<PagedResponse<PollResponse>> responseCall = pollApi.getPolls(userId, page, size);
+        Call<PagedResponse<Poll>> responseCall = pollApi.getPolls(userId, page, size);
 
-        responseCall.enqueue(new Callback<PagedResponse<PollResponse>>() {
+        responseCall.enqueue(new Callback<PagedResponse<Poll>>() {
             @Override
-            public void onResponse(Call<PagedResponse<PollResponse>> call, Response<PagedResponse<PollResponse>> response) {
+            public void onResponse(Call<PagedResponse<Poll>> call, Response<PagedResponse<Poll>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Get Polls Response : " + response.body().toString());
@@ -46,7 +46,7 @@ public class PollService {
             }
 
             @Override
-            public void onFailure(Call<PagedResponse<PollResponse>> call, Throwable t) {
+            public void onFailure(Call<PagedResponse<Poll>> call, Throwable t) {
                 Toast.makeText(context,"Error while fetching polls data",Toast.LENGTH_LONG).show();
             }
         });
@@ -55,11 +55,11 @@ public class PollService {
 
     public void castVote(UUID userId, UUID pollId, VoteRequest voteRequest){
 
-        Call<PollResponse> pollResponseCall = pollApi.castVote(userId, pollId, voteRequest);
+        Call<Poll> pollResponseCall = pollApi.castVote(userId, pollId, voteRequest);
 
-        pollResponseCall.enqueue(new Callback<PollResponse>() {
+        pollResponseCall.enqueue(new Callback<Poll>() {
             @Override
-            public void onResponse(Call<PollResponse> call, Response<PollResponse> response) {
+            public void onResponse(Call<Poll> call, Response<Poll> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Cat Vote Response : " + response.body().toString());
@@ -69,7 +69,7 @@ public class PollService {
             }
 
             @Override
-            public void onFailure(Call<PollResponse> call, Throwable t) {
+            public void onFailure(Call<Poll> call, Throwable t) {
                 Toast.makeText(context,"Error while casting vote",Toast.LENGTH_LONG).show();
             }
         });

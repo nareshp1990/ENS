@@ -9,11 +9,11 @@ import java.util.UUID;
 import lombok.Data;
 
 @Data
-public class PollResponse implements Serializable {
+public class Poll implements Serializable {
 
     private UUID id;
     private String question;
-    private List<ChoiceResponse> choices;
+    private List<Choice> choices;
     private UserSummary createdBy;
     private LocalDateTime creationDateTime;
     private Instant expirationDateTime;

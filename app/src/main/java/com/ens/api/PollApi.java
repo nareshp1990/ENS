@@ -1,7 +1,7 @@
 package com.ens.api;
 
 import com.ens.model.api.PagedResponse;
-import com.ens.model.poll.PollResponse;
+import com.ens.model.poll.Poll;
 import com.ens.model.poll.VoteRequest;
 
 import java.util.UUID;
@@ -16,13 +16,13 @@ import retrofit2.http.Query;
 public interface PollApi {
 
     @GET("/v1/api/polls/{userId}")
-    Call<PagedResponse<PollResponse>> getPolls(@Path("userId") UUID userId, @Query("page") int page, @Query("size") int size);
+    Call<PagedResponse<Poll>> getPolls(@Path("userId") UUID userId, @Query("page") int page, @Query("size") int size);
 
     @GET("/v1/api/polls/{userId}/{pollId}")
-    Call<PollResponse> getPollById(@Path("userId") UUID userId, @Path("pollId") UUID pollId);
+    Call<Poll> getPollById(@Path("userId") UUID userId, @Path("pollId") UUID pollId);
 
     @POST("/v1/api/polls/{userId}/{pollId}/votes")
-    Call<PollResponse> castVote(@Path("userId") UUID userId, @Path("pollId") UUID pollId, @Body VoteRequest voteRequest);
+    Call<Poll> castVote(@Path("userId") UUID userId, @Path("pollId") UUID pollId, @Body VoteRequest voteRequest);
 
 
 

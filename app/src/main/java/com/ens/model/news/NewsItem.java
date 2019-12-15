@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class NewsItemResponse implements Serializable {
+public class NewsItem implements Serializable {
 
     private UUID newsItemId;
     private String headLine;
