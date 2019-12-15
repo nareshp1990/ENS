@@ -1,6 +1,7 @@
 package com.ens;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +18,11 @@ import com.ens.model.PollCardItem;
 import com.ens.model.YoutubeVideoItem;
 import com.ens.nav.drawer.DrawerHeader;
 import com.ens.nav.drawer.DrawerMenuItem;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.mindorks.butterknifelite.ButterKnifeLite;
 import com.mindorks.butterknifelite.annotations.BindView;
 import com.mindorks.placeholderview.PlaceHolderView;
@@ -26,6 +31,7 @@ import com.synnapps.carouselview.CarouselView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,6 +42,8 @@ import de.greenrobot.event.EventBus;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String TAG = MainActivity.class.getCanonicalName();
 
     @BindView(R.id.drawerView)
     private PlaceHolderView mDrawerView;
@@ -76,6 +84,24 @@ public class MainActivity extends AppCompatActivity {
 
         setupDrawer();
         initializePage();
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+
+                if (!task.isSuccessful()) {
+                    Log.w(TAG, "getInstanceId failed", task.getException());
+                    return;
+                }
+
+                // Get new Instance ID token
+                String token = task.getResult().getToken();
+
+                Log.d(TAG, "### Firebase Token: " + token );
+
+
+            }
+        });
     }
 
     @Override

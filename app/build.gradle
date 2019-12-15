@@ -52,6 +52,8 @@ dependencies {
     implementation  group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.1'
     implementation  group: 'de.greenrobot', name: 'eventbus', version: '2.4.1'
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
     compileOnly "org.projectlombok:lombok:1.18.10"
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
@@ -61,3 +63,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
 }
+
+apply plugin: 'com.google.gms.google-services'
