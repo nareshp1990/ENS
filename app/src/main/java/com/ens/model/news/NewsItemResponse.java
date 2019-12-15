@@ -1,37 +1,38 @@
 package com.ens.model.news;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface NewsItemResponse {
+public class NewsItemResponse implements Serializable {
 
-    UUID getNewsItemId();
-    String getHeadLine();
-    String getDescription();
-    String getImageUrl();
-    ContentType getContentType();
-    NewsType getNewsType();
+    private UUID newsItemId;
+    private String headLine;
+    private String description;
+    private String imageUrl;
+    private ContentType contentType;
+    private NewsType newsType;
 
-    String getThumbnailImageUrl();
-    String getVideoUrl();
-    String getYoutubeVideoId();
-    String getDuration();
-    String getSize();
-    VideoType getVideoType();
+    private String thumbnailImageUrl;
+    private String videoUrl;
+    private String youtubeVideoId;
+    private String duration;
+    private String size;
+    private VideoType videoType;
 
-    Long getViews();
-    Long getLikes();
-    Long getUnLikes();
-    Long getComments();
-    Long getWhatsAppShares();
-    Long getFacebookShares();
-    Long getInstagramShares();
-    Long getHelloAppShares();
-    Long getTwitterShares();
-    Long getTelegramShares();
+    private Long views;
+    private Long likes;
+    private Long unLikes;
+    private Long comments;
+    private Long whatsAppShares;
+    private Long facebookShares;
+    private Long instagramShares;
+    private Long helloAppShares;
+    private Long twitterShares;
+    private Long telegramShares;
 
-    LocalDateTime getCreatedOn();
-    String getCreatedBy();
-    String getCreatedByProfileImageUrl();
+    private LocalDateTime createdOn;
+    private String createdBy;
+    private String createdByProfileImageUrl;
 
 }

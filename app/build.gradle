@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.ens"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -51,6 +51,7 @@ dependencies {
     implementation  group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
     implementation  group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.1'
     implementation  group: 'de.greenrobot', name: 'eventbus', version: '2.4.1'
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
     compileOnly "org.projectlombok:lombok:1.18.10"
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
