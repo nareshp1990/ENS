@@ -26,7 +26,7 @@ public class DateUtils {
         return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
-    public String asPrettyDateTime(LocalDateTime localDateTime){
+    public static String asPrettyDateTime(LocalDateTime localDateTime){
         return new PrettyTime().format(asDate(localDateTime));
     }
 

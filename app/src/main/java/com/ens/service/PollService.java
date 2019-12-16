@@ -2,9 +2,9 @@ package com.ens.service;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.ens.api.PollApi;
+import com.ens.config.ENSApplication;
+import com.ens.exception.ApiErrorEvent;
 import com.ens.model.api.PagedResponse;
 import com.ens.model.poll.Poll;
 import com.ens.model.poll.VoteRequest;
@@ -20,19 +20,17 @@ public class PollService {
 
     public static final String TAG = PollService.class.getCanonicalName();
 
-    private Context context;
-    private EventBus eventBus;
-    private PollApi pollApi;
+    private final EventBus eventBus = EventBus.getDefault();
 
-    public PollService(Context context, EventBus eventBus, PollApi pollApi) {
+    private Context context;
+
+    public PollService(Context context) {
         this.context = context;
-        this.eventBus = eventBus;
-        this.pollApi = pollApi;
     }
 
     public void getPolls(UUID userId, int page, int size){
 
-        Call<PagedResponse<Poll>> responseCall = pollApi.getPolls(userId, page, size);
+        Call<PagedResponse<Poll>> responseCall = ENSApplication.getPollApi().getPolls(userId, page, size);
 
         responseCall.enqueue(new Callback<PagedResponse<Poll>>() {
             @Override
@@ -47,7 +45,7 @@ public class PollService {
 
             @Override
             public void onFailure(Call<PagedResponse<Poll>> call, Throwable t) {
-                Toast.makeText(context,"Error while fetching polls data",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 
@@ -55,7 +53,7 @@ public class PollService {
 
     public void castVote(UUID userId, UUID pollId, VoteRequest voteRequest){
 
-        Call<Poll> pollResponseCall = pollApi.castVote(userId, pollId, voteRequest);
+        Call<Poll> pollResponseCall = ENSApplication.getPollApi().castVote(userId, pollId, voteRequest);
 
         pollResponseCall.enqueue(new Callback<Poll>() {
             @Override
@@ -70,7 +68,7 @@ public class PollService {
 
             @Override
             public void onFailure(Call<Poll> call, Throwable t) {
-                Toast.makeText(context,"Error while casting vote",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 

@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.ens.R;
-import com.ens.model.NewsCardViewItem;
+import com.ens.model.news.NewsItem;
 import com.mindorks.butterknifelite.ButterKnifeLite;
 import com.mindorks.butterknifelite.annotations.BindView;
 
@@ -30,7 +30,7 @@ public class NewsCardDetailedActivity extends AppCompatActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        NewsCardViewItem news_card_item = (NewsCardViewItem) getIntent().getSerializableExtra("news_card_item");
+        NewsItem news_card_item = (NewsItem) getIntent().getSerializableExtra("news_card_item");
 
         Glide.with(this).load(news_card_item.getImageUrl()).into(imgDetailedView);
     }

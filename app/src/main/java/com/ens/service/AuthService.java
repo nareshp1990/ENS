@@ -2,9 +2,9 @@ package com.ens.service;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.ens.api.AuthApi;
+import com.ens.config.ENSApplication;
+import com.ens.exception.ApiErrorEvent;
 import com.ens.model.user.UserResponse;
 
 import de.greenrobot.event.EventBus;
@@ -16,19 +16,17 @@ public class AuthService {
 
     public static final String TAG = AuthService.class.getCanonicalName();
 
-    private Context context;
-    private AuthApi authApi;
-    private EventBus eventBus;
+    private final EventBus eventBus = EventBus.getDefault();
 
-    public AuthService(Context context, AuthApi authApi, EventBus eventBus) {
+    private Context context;
+
+    public AuthService(Context context) {
         this.context = context;
-        this.authApi = authApi;
-        this.eventBus = eventBus;
     }
 
     public void login(String mobileNumber, String password){
 
-        Call<UserResponse> userResponseCall = authApi.login(mobileNumber, password);
+        Call<UserResponse> userResponseCall = ENSApplication.getAuthApi().login(mobileNumber, password);
 
         userResponseCall.enqueue(new Callback<UserResponse>() {
             @Override
@@ -43,7 +41,7 @@ public class AuthService {
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Toast.makeText(context,"Error while login",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 

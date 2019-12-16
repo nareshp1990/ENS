@@ -2,9 +2,9 @@ package com.ens.service;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.ens.api.UserApi;
+import com.ens.config.ENSApplication;
+import com.ens.exception.ApiErrorEvent;
 import com.ens.model.api.ApiResponse;
 import com.ens.model.user.User;
 import com.ens.model.user.UserRequest;
@@ -20,19 +20,17 @@ public class UserService {
 
     public static final String TAG = UserService.class.getCanonicalName();
 
-    private Context context;
-    private EventBus eventBus;
-    private UserApi userApi;
+    private final EventBus eventBus = EventBus.getDefault();
 
-    public UserService(Context context, EventBus eventBus, UserApi userApi) {
+    private Context context;
+
+    public UserService(Context context) {
         this.context = context;
-        this.eventBus = eventBus;
-        this.userApi = userApi;
     }
 
     public void createUser(UserRequest userRequest){
 
-        Call<ApiResponse> apiResponseCall = userApi.createUser(userRequest);
+        Call<ApiResponse> apiResponseCall = ENSApplication.getUserApi().createUser(userRequest);
 
         apiResponseCall.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -49,7 +47,7 @@ public class UserService {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(context,"Error while creating user",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 
@@ -57,7 +55,7 @@ public class UserService {
 
     public void getUser(UUID userId){
 
-        Call<User> apiUser = userApi.getUser(userId);
+        Call<User> apiUser = ENSApplication.getUserApi().getUser(userId);
 
         apiUser.enqueue(new Callback<User>() {
             @Override
@@ -74,7 +72,7 @@ public class UserService {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(context,"Error while fetching user",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 
@@ -82,7 +80,7 @@ public class UserService {
 
     public void updateUserFCMKey(UUID userId, String fcmKey){
 
-        Call<User> userCall = userApi.updateUserFCMKey(userId, fcmKey);
+        Call<User> userCall = ENSApplication.getUserApi().updateUserFCMKey(userId, fcmKey);
 
         userCall.enqueue(new Callback<User>() {
             @Override
@@ -97,7 +95,7 @@ public class UserService {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(context,"Error while updating user fcm key",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 

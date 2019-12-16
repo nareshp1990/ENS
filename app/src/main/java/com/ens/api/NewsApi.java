@@ -4,8 +4,8 @@ import com.ens.model.api.ApiResponse;
 import com.ens.model.api.PagedResponse;
 import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
-import com.ens.model.news.NewsItemAction;
 import com.ens.model.news.NewsItem;
+import com.ens.model.news.NewsItemAction;
 
 import java.util.UUID;
 
@@ -30,4 +30,6 @@ public interface NewsApi {
     @GET("/v1/api/news/{userId}")
     Call<PagedResponse<NewsItem>> getAllNewsItems(@Path("userId") UUID userId, @Query("contentType")ContentType contentType, @Query("page") int page, @Query("size") int size);
 
+    @GET("/v1/api/news/{userId}/scroll")
+    Call<String> getNewsScrollText(@Path("userId") UUID userId, @Query("page") int page, @Query("size") int size);
 }

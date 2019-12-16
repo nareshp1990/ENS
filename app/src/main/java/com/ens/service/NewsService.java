@@ -2,15 +2,15 @@ package com.ens.service;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.ens.api.NewsApi;
+import com.ens.config.ENSApplication;
+import com.ens.exception.ApiErrorEvent;
 import com.ens.model.api.ApiResponse;
 import com.ens.model.api.PagedResponse;
 import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
-import com.ens.model.news.NewsItemAction;
 import com.ens.model.news.NewsItem;
+import com.ens.model.news.NewsItemAction;
 
 import java.util.UUID;
 
@@ -23,19 +23,17 @@ public class NewsService {
 
     public static final String TAG = NewsService.class.getCanonicalName();
 
-    private Context context;
-    private EventBus eventBus;
-    private NewsApi newsApi;
+    private final EventBus eventBus = EventBus.getDefault();
 
-    public NewsService(Context context, EventBus eventBus, NewsApi newsApi) {
+    private Context context;
+
+    public NewsService(Context context) {
         this.context = context;
-        this.eventBus = eventBus;
-        this.newsApi = newsApi;
     }
 
     public void postComment(UUID userId, UUID newsItemId, String comment){
 
-        Call<ApiResponse> apiResponseCall = newsApi.postComment(userId, newsItemId, comment);
+        Call<ApiResponse> apiResponseCall = ENSApplication.getNewsApi().postComment(userId, newsItemId, comment);
 
         apiResponseCall.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -52,7 +50,7 @@ public class NewsService {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(context,"Error while posting comment",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 
@@ -60,7 +58,7 @@ public class NewsService {
 
     public void postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType){
 
-        Call<NewsItemAction> newsItemActionResponseCall = newsApi.postNewsItemAction(userId, newsItemId, actionType);
+        Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().postNewsItemAction(userId, newsItemId, actionType);
 
         newsItemActionResponseCall.enqueue(new Callback<NewsItemAction>() {
             @Override
@@ -77,7 +75,7 @@ public class NewsService {
 
             @Override
             public void onFailure(Call<NewsItemAction> call, Throwable t) {
-                Toast.makeText(context,"Error while posting news item action",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 
@@ -85,7 +83,7 @@ public class NewsService {
 
     public void getAllNewsItems(UUID userId, ContentType contentType, int page, int size){
 
-        Call<PagedResponse<NewsItem>> pagedResponseCall = newsApi.getAllNewsItems(userId, contentType, page, size);
+        Call<PagedResponse<NewsItem>> pagedResponseCall = ENSApplication.getNewsApi().getAllNewsItems(userId, contentType, page, size);
 
         pagedResponseCall.enqueue(new Callback<PagedResponse<NewsItem>>() {
             @Override
@@ -102,7 +100,32 @@ public class NewsService {
 
             @Override
             public void onFailure(Call<PagedResponse<NewsItem>> call, Throwable t) {
-                Toast.makeText(context,"Error while fetching news items",Toast.LENGTH_LONG).show();
+                eventBus.post(new ApiErrorEvent(t));
+            }
+        });
+
+    }
+
+    public void getNewsScrollText(UUID userId, int page, int size){
+
+        Call<String> scrollTextResponseCall = ENSApplication.getNewsApi().getNewsScrollText(userId, page, size);
+
+        scrollTextResponseCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i(TAG, "### Get News Scroll Text Response : " + response.body());
+                        eventBus.post(response.body());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                eventBus.post(new ApiErrorEvent(t));
             }
         });
 

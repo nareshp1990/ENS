@@ -1,9 +1,17 @@
 package com.ens.model.news;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import lombok.Data;
+
+@Data
 public class NewsItem implements Serializable {
 
     private UUID newsItemId;
@@ -20,17 +28,19 @@ public class NewsItem implements Serializable {
     private String size;
     private VideoType videoType;
 
-    private Long views;
-    private Long likes;
-    private Long unLikes;
-    private Long comments;
-    private Long whatsAppShares;
-    private Long facebookShares;
-    private Long instagramShares;
-    private Long helloAppShares;
-    private Long twitterShares;
-    private Long telegramShares;
+    private long views;
+    private long likes;
+    private long unLikes;
+    private long comments;
+    private long whatsAppShares;
+    private long facebookShares;
+    private long instagramShares;
+    private long helloAppShares;
+    private long twitterShares;
+    private long telegramShares;
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime createdOn;
     private String createdBy;
     private String createdByProfileImageUrl;

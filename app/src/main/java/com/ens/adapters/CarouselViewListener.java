@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ens.R;
-import com.ens.model.CarouselViewItem;
+import com.ens.model.news.NewsItem;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ViewListener;
 
@@ -17,10 +17,10 @@ import java.util.List;
 
 public class CarouselViewListener implements ViewListener, ImageClickListener {
 
-    private List<CarouselViewItem> carouselViewItems;
+    private List<NewsItem> carouselViewItems;
     private Context context;
 
-    public CarouselViewListener(List<CarouselViewItem> carouselViewItems, Context context) {
+    public CarouselViewListener(List<NewsItem> carouselViewItems, Context context) {
         this.carouselViewItems = carouselViewItems;
         this.context = context;
     }
@@ -34,7 +34,7 @@ public class CarouselViewListener implements ViewListener, ImageClickListener {
         TextView txtImageCaption = view.findViewById(R.id.txtImageCaption);
 
         Glide.with(context).load(carouselViewItems.get(position).getImageUrl()).into(imgCarousel);
-        txtImageCaption.setText(carouselViewItems.get(position).getImageCaption());
+        txtImageCaption.setText(carouselViewItems.get(position).getHeadLine());
 
         return view;
     }
@@ -43,7 +43,7 @@ public class CarouselViewListener implements ViewListener, ImageClickListener {
     @Override
     public void onClick(int position) {
 
-        Toast.makeText(context, "Clicked item: " + carouselViewItems.get(position).getImageCaption(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Clicked item: " + carouselViewItems.get(position).getHeadLine(), Toast.LENGTH_SHORT).show();
 
     }
 }

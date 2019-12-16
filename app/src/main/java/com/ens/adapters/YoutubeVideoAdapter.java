@@ -9,8 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ens.R;
-import com.ens.activities.YoutubePlayerActivity;
-import com.ens.model.YoutubeVideoItem;
+import com.ens.model.news.NewsItem;
 import com.ens.utils.AppConstants;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
@@ -23,11 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class YoutubeVideoAdapter extends RecyclerView.Adapter<YoutubeVideoAdapter.YoutubeViewHolder> {
 
-    private List<YoutubeVideoItem> youtubeVideoItems;
+    private List<NewsItem> newsItems;
     private Context context;
 
-    public YoutubeVideoAdapter(List<YoutubeVideoItem> youtubeVideoItems, Context context) {
-        this.youtubeVideoItems = youtubeVideoItems;
+    public YoutubeVideoAdapter(List<NewsItem> newsItems, Context context) {
+        this.newsItems = newsItems;
         this.context = context;
     }
 
@@ -42,13 +41,13 @@ public class YoutubeVideoAdapter extends RecyclerView.Adapter<YoutubeVideoAdapte
     @Override
     public void onBindViewHolder(@NonNull YoutubeViewHolder holder, int position) {
 
-        final YoutubeVideoItem youtubeVideoItem = youtubeVideoItems.get(position);
+        final NewsItem newsItem = newsItems.get(position);
 
         holder.youtubeThumbnailImageView.initialize(AppConstants.YOUTUBE_API_KEY, new YouTubeThumbnailView.OnInitializedListener() {
 
             @Override
             public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
-                youTubeThumbnailLoader.setVideo(youtubeVideoItem.getVideoId());
+                youTubeThumbnailLoader.setVideo(newsItem.getYoutubeVideoId());
 
                 youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
                     @Override
@@ -78,7 +77,7 @@ public class YoutubeVideoAdapter extends RecyclerView.Adapter<YoutubeVideoAdapte
                 /*context.startActivity(new Intent(context, YoutubePlayerActivity.class)
                         .putExtra("video_id", youtubeVideoItem.getVideoId()));*/
 
-                openYoutubeVideo(youtubeVideoItem.getVideoId());
+                openYoutubeVideo(newsItem.getYoutubeVideoId());
 
             }
         });
@@ -86,7 +85,7 @@ public class YoutubeVideoAdapter extends RecyclerView.Adapter<YoutubeVideoAdapte
 
     @Override
     public int getItemCount() {
-        return youtubeVideoItems != null ? youtubeVideoItems.size() : 0;
+        return newsItems != null ? newsItems.size() : 0;
     }
 
     public class YoutubeViewHolder extends RecyclerView.ViewHolder {

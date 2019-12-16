@@ -13,7 +13,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ens.R;
 import com.ens.activities.ExoPlayerActivity;
-import com.ens.model.NewsCardViewItem;
+import com.ens.model.news.NewsItem;
+import com.ens.utils.DateUtils;
 
 import java.util.List;
 
@@ -23,11 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.VideoViewHolder> {
 
     private Context context;
-    private List<NewsCardViewItem> newsCardViewItems;
+    private List<NewsItem> newsItems;
 
-    public VideoViewAdapter(Context context, List<NewsCardViewItem> newsCardViewItems) {
+    public VideoViewAdapter(Context context, List<NewsItem> newsItems) {
         this.context = context;
-        this.newsCardViewItems = newsCardViewItems;
+        this.newsItems = newsItems;
     }
 
     @NonNull
@@ -39,12 +40,12 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        holder.bind(newsCardViewItems.get(position));
+        holder.bind(newsItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return newsCardViewItems != null ? newsCardViewItems.size() : 0;
+        return newsItems != null ? newsItems.size() : 0;
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {
@@ -104,25 +105,25 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
 
         }
 
-        public void bind(final NewsCardViewItem newsCardViewItem) {
+        public void bind(final NewsItem newsItem) {
 
-            Glide.with(context).load(newsCardViewItem.getVideoThumbnailUrl()).into(imgVideoThumbnail);
-            txtVideoHeadline.setText(newsCardViewItem.getHeadLine());
-            txtVideoDescription.setText(newsCardViewItem.getDescription());
-            txtNewsCardCreatedOn.setText(newsCardViewItem.getStrCreatedOn());
+            Glide.with(context).load(newsItem.getThumbnailImageUrl()).into(imgVideoThumbnail);
+            txtVideoHeadline.setText(newsItem.getHeadLine());
+            txtVideoDescription.setText(newsItem.getDescription());
+            txtNewsCardCreatedOn.setText(DateUtils.asPrettyDateTime(newsItem.getCreatedOn()));
 
-            txtNewsCardViewsCount.setText(String.valueOf(newsCardViewItem.getViews()));
-            txtNewsCardLikeCount.setText(String.valueOf(newsCardViewItem.getLikes()));
-            txtNewsCardUnLikeCount.setText(String.valueOf(newsCardViewItem.getUnLikes()));
-            txtNewsCardCommentsCount.setText(String.valueOf(newsCardViewItem.getComments()));
-            txtNewsCardWhatsAppShareCount.setText(String.valueOf(newsCardViewItem.getWhatsAppShares()));
-            txtNewsCardFacebookShareCount.setText(String.valueOf(newsCardViewItem.getFacebookShares()));
-            txtNewsCardInstagramShareCount.setText(String.valueOf(newsCardViewItem.getInstagramShares()));
-            txtNewsCardHelloAppShareCount.setText(String.valueOf(newsCardViewItem.getHelloAppShares()));
+            txtNewsCardViewsCount.setText(String.valueOf(newsItem.getViews()));
+            txtNewsCardLikeCount.setText(String.valueOf(newsItem.getLikes()));
+            txtNewsCardUnLikeCount.setText(String.valueOf(newsItem.getUnLikes()));
+            txtNewsCardCommentsCount.setText(String.valueOf(newsItem.getComments()));
+            txtNewsCardWhatsAppShareCount.setText(String.valueOf(newsItem.getWhatsAppShares()));
+            txtNewsCardFacebookShareCount.setText(String.valueOf(newsItem.getFacebookShares()));
+            txtNewsCardInstagramShareCount.setText(String.valueOf(newsItem.getInstagramShares()));
+            txtNewsCardHelloAppShareCount.setText(String.valueOf(newsItem.getHelloAppShares()));
 
-            layoutLike.setOnClickListener(v -> Toast.makeText(context, String.valueOf(newsCardViewItem.getLikes()), Toast.LENGTH_LONG).show());
+            layoutLike.setOnClickListener(v -> Toast.makeText(context, String.valueOf(newsItem.getLikes()), Toast.LENGTH_LONG).show());
 
-            View.OnClickListener onClickListener = v -> playVideo(newsCardViewItem.getVideoUrl());
+            View.OnClickListener onClickListener = v -> playVideo(newsItem.getVideoUrl());
 
             imgVideoThumbnail.setOnClickListener(onClickListener);
             imgVideoPlay.setOnClickListener(onClickListener);
