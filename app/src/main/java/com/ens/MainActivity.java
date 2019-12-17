@@ -6,9 +6,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ens.adapters.CarouselViewListener;
 import com.ens.adapters.NewsCardViewAdapter;
+import com.ens.adapters.VideoViewAdapter;
+import com.ens.adapters.YoutubeVideoAdapter;
+import com.ens.bus.NewsLoadedEvent;
 import com.ens.config.ENSApplication;
-import com.ens.model.api.PagedResponse;
+import com.ens.exception.ApiErrorEvent;
 import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.nav.drawer.DrawerHeader;
@@ -21,6 +25,7 @@ import com.mindorks.butterknifelite.annotations.BindView;
 import com.mindorks.placeholderview.PlaceHolderView;
 import com.synnapps.carouselview.CarouselView;
 
+import java.util.List;
 import java.util.UUID;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -86,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             // Get new Instance ID token
             String token = task.getResult().getToken();
 
-            Log.d(TAG, "### Firebase Token: " + token );
+            Log.d(TAG, "### Firebase Token: " + token);
 
         });
 
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         ENSApplication.activityResumed();
     }
 
-    public void onEvent(Boolean isInternetAvailable){
+    public void onEvent(Boolean isInternetAvailable) {
         Toast.makeText(this, isInternetAvailable ? "Internet Available" : "Internet Not Available", Toast.LENGTH_SHORT).show();
     }
 
@@ -169,39 +174,63 @@ public class MainActivity extends AppCompatActivity {
 
         scrollTextView.setSelected(true);
 
-        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.IMAGE,0,5);
+        newsService.getNewsScrollText(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), 0, 5);
+        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.IMAGE_SLIDER, 0, 8);
+        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.YOUTUBE, 0, 15);
+        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.IMAGE, 0, 5);
+        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.VIDEO, 0, 5);
 
         /*
-        // Start Main Page Carousel View
-        List<CarouselViewItem> carouselViewItems = prepareCarouselImageViewData();
-
-        CarouselViewListener carouselViewListener = new CarouselViewListener(carouselViewItems, this);
-        mainPageCarouselView.setPageCount(carouselViewItems.size());
-        mainPageCarouselView.setViewListener(carouselViewListener);
-        mainPageCarouselView.setImageClickListener(carouselViewListener);
-        // End Main Page Carousel View
-
-        youtubeThumbnailRecyclerView.setAdapter(new YoutubeVideoAdapter(prepareYoutubeVideoItems(), this));
-        youtubeThumbnailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
-        newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, prepareNewsCardViewItems()));
-        newsCardRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
         newsPollRecyclerView.setAdapter(new PollCardViewAdapter(this, preparePollCardItems()));
-        newsPollRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-        ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, prepareENSVideoViewItems()));
-        ensVideoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)); */
+        newsPollRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));*/
 
         fabPostNews.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "Create News", Toast.LENGTH_SHORT).show());
 
     }
 
-    public void onEvent(PagedResponse<NewsItem> pagedResponse){
+    public void onEvent(NewsLoadedEvent newsLoadedEvent) {
 
-        newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, pagedResponse.getContent()));
-        newsCardRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        switch (newsLoadedEvent.getContentType()) {
 
+            case SCROLL: {
+                scrollTextView.setText(newsLoadedEvent.getScrollText());
+            }
+            break;
+
+            case IMAGE_SLIDER: {
+                List<NewsItem> newsItems = newsLoadedEvent.getNewsItemPagedResponse().getContent();
+                CarouselViewListener carouselViewListener = new CarouselViewListener(newsItems, this);
+                mainPageCarouselView.setViewListener(carouselViewListener);
+                mainPageCarouselView.setPageCount(newsItems.size());
+                mainPageCarouselView.setImageClickListener(carouselViewListener);
+            }
+            break;
+
+            case YOUTUBE: {
+                youtubeThumbnailRecyclerView.setAdapter(new YoutubeVideoAdapter(newsLoadedEvent.getNewsItemPagedResponse().getContent(), this));
+                youtubeThumbnailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            }
+            break;
+
+            case IMAGE: {
+                newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent(),newsService));
+                newsCardRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            }
+            break;
+
+            case VIDEO: {
+                ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent()));
+                ensVideoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            }
+            break;
+
+        }
+
+    }
+
+    public void onApiError(ApiErrorEvent event) {
+        Log.e(TAG, event.toString());
+        Toast.makeText(this, "Something went wrong, please try again.", Toast.LENGTH_SHORT).show();
     }
 
 }

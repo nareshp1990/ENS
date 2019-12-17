@@ -15,6 +15,7 @@ import com.ens.R;
 import com.ens.activities.ExoPlayerActivity;
 import com.ens.model.news.NewsItem;
 import com.ens.utils.DateUtils;
+import com.github.abdularis.civ.CircleImageView;
 
 import java.util.List;
 
@@ -56,6 +57,8 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
         private TextView txtVideoHeadline;
         private TextView txtVideoDescription;
         private TextView txtNewsCardCreatedOn;
+        private TextView txtNewsCardPostedBy;
+        private CircleImageView createdByCircleImageView;
 
         private TextView txtNewsCardViewsCount;
         private TextView txtNewsCardLikeCount;
@@ -84,6 +87,8 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
             txtVideoHeadline = view.findViewById(R.id.txtVideoHeadline);
             txtVideoDescription = view.findViewById(R.id.txtVideoDescription);
             txtNewsCardCreatedOn = view.findViewById(R.id.txtNewsCardCreatedOn);
+            txtNewsCardPostedBy = view.findViewById(R.id.txtNewsCardPostedBy);
+            createdByCircleImageView = view.findViewById(R.id.createdByCircleImageView);
 
             txtNewsCardViewsCount = view.findViewById(R.id.txtNewsCardViewsCount);
             txtNewsCardLikeCount = view.findViewById(R.id.txtNewsCardLikeCount);
@@ -111,6 +116,8 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
             txtVideoHeadline.setText(newsItem.getHeadLine());
             txtVideoDescription.setText(newsItem.getDescription());
             txtNewsCardCreatedOn.setText(DateUtils.asPrettyDateTime(newsItem.getCreatedOn()));
+            txtNewsCardPostedBy.setText(newsItem.getCreatedBy());
+            Glide.with(context).load(newsItem.getCreatedByProfileImageUrl()).into(createdByCircleImageView);
 
             txtNewsCardViewsCount.setText(String.valueOf(newsItem.getViews()));
             txtNewsCardLikeCount.setText(String.valueOf(newsItem.getLikes()));

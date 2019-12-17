@@ -3,6 +3,9 @@ package com.ens.service;
 import android.content.Context;
 import android.util.Log;
 
+import com.ens.adapters.NewsCardViewAdapter;
+import com.ens.bus.NewsActionEvent;
+import com.ens.bus.NewsLoadedEvent;
 import com.ens.config.ENSApplication;
 import com.ens.exception.ApiErrorEvent;
 import com.ens.model.api.ApiResponse;
@@ -56,7 +59,7 @@ public class NewsService {
 
     }
 
-    public void postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType){
+    public void postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType, NewsCardViewAdapter.NewsCardViewHolder holder){
 
         Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().postNewsItemAction(userId, newsItemId, actionType);
 
@@ -67,7 +70,7 @@ public class NewsService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Post News Item Action Response : " + response.body().toString());
-                        eventBus.post(response.body());
+                        eventBus.post(new NewsActionEvent(response.body(),holder));
                     }
                 }
 
@@ -92,7 +95,7 @@ public class NewsService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Get News Items Response : " + response.body().toString());
-                        eventBus.post(response.body());
+                        eventBus.post(new NewsLoadedEvent(contentType,response.body()));
                     }
                 }
 
@@ -117,7 +120,7 @@ public class NewsService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Get News Scroll Text Response : " + response.body());
-                        eventBus.post(response.body());
+                        eventBus.post(new NewsLoadedEvent(ContentType.SCROLL,response.body()));
                     }
                 }
 

@@ -8,6 +8,7 @@
 
 
     <com.github.abdularis.civ.CircleImageView
+        android:id="@+id/createdByCircleImageView"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/img_ens_logo" />
