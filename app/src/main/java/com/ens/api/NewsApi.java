@@ -6,8 +6,7 @@ import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.model.news.NewsItemAction;
-
-import java.util.UUID;
+import com.ens.model.news.ScrollResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -21,15 +20,15 @@ public interface NewsApi {
 
     @FormUrlEncoded
     @POST("/v1/api/news/{userId}/{newsItemId}/comment")
-    Call<ApiResponse> postComment(@Path("userId") UUID userId, @Path("newsItemId") UUID newsItemId, @Field("comment") String comment);
+    Call<ApiResponse> postComment(@Path("userId") Long userId, @Path("newsItemId") Long newsItemId, @Field("comment") String comment);
 
     @FormUrlEncoded
     @POST("/v1/api/news/{userId}/{newsItemId}/action")
-    Call<NewsItemAction> postNewsItemAction(@Path("userId") UUID userId, @Path("newsItemId") UUID newsItemId, @Field("actionType")ActionType actionType);
+    Call<NewsItemAction> postNewsItemAction(@Path("userId") Long userId, @Path("newsItemId") Long newsItemId, @Field("actionType")ActionType actionType);
 
     @GET("/v1/api/news/{userId}")
-    Call<PagedResponse<NewsItem>> getAllNewsItems(@Path("userId") UUID userId, @Query("contentType")ContentType contentType, @Query("page") int page, @Query("size") int size);
+    Call<PagedResponse<NewsItem>> getAllNewsItems(@Path("userId") Long userId, @Query("contentType")ContentType contentType, @Query("page") int page, @Query("size") int size);
 
     @GET("/v1/api/news/{userId}/scroll")
-    Call<String> getNewsScrollText(@Path("userId") UUID userId, @Query("page") int page, @Query("size") int size);
+    Call<ScrollResponse> getNewsScrollText(@Path("userId") Long userId, @Query("page") int page, @Query("size") int size);
 }

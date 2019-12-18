@@ -1,6 +1,7 @@
 package com.ens.config;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import com.ens.api.NewsApi;
 import com.ens.api.PollApi;
 import com.ens.api.UserApi;
 import com.ens.exception.ApiErrorEvent;
+import com.ens.utils.SharedPrefsUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.greenrobot.event.EventBus;
@@ -16,6 +18,8 @@ import de.greenrobot.event.EventBus;
 public class ENSApplication extends Application {
 
     public static final String TAG = ENSApplication.class.getCanonicalName();
+
+    private static Context context;
 
     // Gloabl declaration of variable to use in whole app
     // Variable that will check the current activity state
@@ -36,7 +40,7 @@ public class ENSApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        ENSApplication.context = getApplicationContext();
         eventBus.register(this);
     }
 
@@ -53,7 +57,7 @@ public class ENSApplication extends Application {
         activityVisible = false;// this will set false when activity paused
     }
 
-    public void onApiError(ApiErrorEvent event) {
+    public void onEvent(ApiErrorEvent event) {
         Log.e(TAG, event.toString());
         Toast.makeText(this, "Something went wrong, please try again.", Toast.LENGTH_SHORT).show();
     }
@@ -90,4 +94,15 @@ public class ENSApplication extends Application {
         return userApi;
     }
 
+    public static Context getAppContext(){
+        return ENSApplication.context;
+    }
+
+    public static void saveLoggedInUserId(long userId){
+        SharedPrefsUtils.setLongPreference(getAppContext(),"userId",userId);
+    }
+
+    public static Long getLoggedInUserId(){
+        return SharedPrefsUtils.getLongPreference(getAppContext(),"userId",0);
+    }
 }

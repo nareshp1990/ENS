@@ -9,8 +9,6 @@ import com.ens.model.api.ApiResponse;
 import com.ens.model.user.User;
 import com.ens.model.user.UserRequest;
 
-import java.util.UUID;
-
 import de.greenrobot.event.EventBus;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,7 +51,7 @@ public class UserService {
 
     }
 
-    public void getUser(UUID userId){
+    public void getUser(Long userId){
 
         Call<User> apiUser = ENSApplication.getUserApi().getUser(userId);
 
@@ -78,7 +76,7 @@ public class UserService {
 
     }
 
-    public void updateUserFCMKey(UUID userId, String fcmKey){
+    public void updateUserFCMKey(Long userId, String fcmKey){
 
         Call<User> userCall = ENSApplication.getUserApi().updateUserFCMKey(userId, fcmKey);
 

@@ -9,8 +9,6 @@ import com.ens.model.api.PagedResponse;
 import com.ens.model.poll.Poll;
 import com.ens.model.poll.VoteRequest;
 
-import java.util.UUID;
-
 import de.greenrobot.event.EventBus;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +26,7 @@ public class PollService {
         this.context = context;
     }
 
-    public void getPolls(UUID userId, int page, int size){
+    public void getPolls(Long userId, int page, int size){
 
         Call<PagedResponse<Poll>> responseCall = ENSApplication.getPollApi().getPolls(userId, page, size);
 
@@ -51,7 +49,7 @@ public class PollService {
 
     }
 
-    public void castVote(UUID userId, UUID pollId, VoteRequest voteRequest){
+    public void castVote(Long userId, Long pollId, VoteRequest voteRequest){
 
         Call<Poll> pollResponseCall = ENSApplication.getPollApi().castVote(userId, pollId, voteRequest);
 

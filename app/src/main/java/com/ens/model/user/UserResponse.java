@@ -7,14 +7,13 @@ import com.ens.model.location.State;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.UUID;
 
 import lombok.Data;
 
 @Data
 public class UserResponse implements Serializable {
 
-    private UUID id;
+    private Long id;
     private String userName;
     private String email;
     private String mobileNumber;

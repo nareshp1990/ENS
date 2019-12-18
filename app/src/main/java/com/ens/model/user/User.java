@@ -3,11 +3,10 @@ package com.ens.model.user;
 import com.ens.model.api.DateAudit;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 public class User extends DateAudit implements Serializable {
 
-    private UUID id;
+    private Long id;
     private String userName;
     private String firstName;
     private String lastName;

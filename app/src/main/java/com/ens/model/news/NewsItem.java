@@ -7,14 +7,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import lombok.Data;
 
 @Data
 public class NewsItem implements Serializable {
 
-    private UUID newsItemId;
+    private Long newsItemId;
     private String headLine;
     private String description;
     private String imageUrl;

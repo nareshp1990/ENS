@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:name=".config.ENSApplication">
         <activity android:name=".activities.NewsCardDetailedActivity"></activity>
         <activity android:name=".activities.ExoPlayerActivity" />
         <activity android:name=".activities.YoutubePlayerActivity" />

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.ens.R;
 import com.ens.activities.NewsCardDetailedActivity;
 import com.ens.bus.NewsActionEvent;
+import com.ens.config.ENSApplication;
 import com.ens.model.news.ActionType;
 import com.ens.model.news.NewsItem;
 import com.ens.service.NewsService;
@@ -20,7 +21,6 @@ import com.ens.utils.DateUtils;
 import com.github.abdularis.civ.CircleImageView;
 
 import java.util.List;
-import java.util.UUID;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -134,10 +134,19 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
             txtNewsCardInstagramShareCount.setText(String.valueOf(newsItem.getInstagramShares()));
             txtNewsCardHelloAppShareCount.setText(String.valueOf(newsItem.getHelloAppShares()));
 
-            layoutLike.setOnClickListener(v -> {
-                newsService.postNewsItemAction(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"),newsItem.getNewsItemId(), ActionType.LIKE,this);
+            layoutLike.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.LIKE,this));
+            layoutUnLike.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.UNLIKE,this));
+            layoutComments.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.COMMENT,this));
+            layoutWhatsappShare.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.WHATSAPP,this));
+            layoutFacebookShare.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.FACEBOOK,this));
+            layoutHelloAppShare.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.HELLO_APP,this));
+            layoutInstagramShare.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.INSTAGRAM,this));
+
+
+            touchViewLayout.setOnClickListener(v ->{
+                postNewsItemAction(newsItem.getNewsItemId(),ActionType.VIEW,this);
+                openDetailedNewsActivity(newsItem);
             });
-            touchViewLayout.setOnClickListener(v -> openDetailedNewsActivity(newsItem));
 
         }
 
@@ -151,10 +160,20 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
 
     }
 
+    public void postNewsItemAction(Long newsItemId, ActionType actionType, NewsCardViewHolder holder){
+        newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(),newsItemId,actionType,holder);
+    }
+
     public void onEvent(NewsActionEvent newsActionEvent){
 
+        newsActionEvent.getNewsCardViewHolder().txtNewsCardViewsCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getViews()));
         newsActionEvent.getNewsCardViewHolder().txtNewsCardLikeCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getLikes()));
-
+        newsActionEvent.getNewsCardViewHolder().txtNewsCardUnLikeCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getUnLikes()));
+        newsActionEvent.getNewsCardViewHolder().txtNewsCardCommentsCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getComments()));
+        newsActionEvent.getNewsCardViewHolder().txtNewsCardWhatsAppShareCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getWhatsAppShares()));
+        newsActionEvent.getNewsCardViewHolder().txtNewsCardFacebookShareCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getFacebookShares()));
+        newsActionEvent.getNewsCardViewHolder().txtNewsCardInstagramShareCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getInstagramShares()));
+        newsActionEvent.getNewsCardViewHolder().txtNewsCardHelloAppShareCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getHelloAppShares()));
     }
 
 }

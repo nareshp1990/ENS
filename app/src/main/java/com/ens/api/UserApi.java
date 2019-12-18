@@ -4,8 +4,6 @@ import com.ens.model.api.ApiResponse;
 import com.ens.model.user.User;
 import com.ens.model.user.UserRequest;
 
-import java.util.UUID;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -23,16 +21,16 @@ public interface UserApi {
     Call<ApiResponse> createUser(@Body UserRequest userRequest);
 
     @PUT("/v1/api/users/{userId}")
-    Call<ApiResponse> updateUser(@Path ("userId") UUID userId, @Body UserRequest userRequest);
+    Call<ApiResponse> updateUser(@Path ("userId") Long userId, @Body UserRequest userRequest);
 
     @GET("/v1/api/users/{userId}")
-    Call<User> getUser(@Path ("userId") UUID userId);
+    Call<User> getUser(@Path ("userId") Long userId);
 
     @DELETE("/v1/api/users/{userId}")
-    Call<ApiResponse> deleteUser(@Path ("userId") UUID userId);
+    Call<ApiResponse> deleteUser(@Path ("userId") Long userId);
 
     @FormUrlEncoded
     @PATCH("/v1/api/users/{userId}")
-    Call<User> updateUserFCMKey(@Path ("userId") UUID userId, @Field("fcmKey") String fcmKey);
+    Call<User> updateUserFCMKey(@Path ("userId") Long userId, @Field("fcmKey") String fcmKey);
 
 }

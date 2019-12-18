@@ -2,7 +2,6 @@ package com.ens.model.user;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.UUID;
 
 import lombok.Data;
 
@@ -18,8 +17,8 @@ public class UserRequest implements Serializable {
     private Gender gender;
     private LocalDate dateOfBirth;
 
-    private UUID country;
-    private UUID state;
-    private UUID district;
-    private UUID area;
+    private Long country;
+    private Long state;
+    private Long district;
+    private Long area;
 }

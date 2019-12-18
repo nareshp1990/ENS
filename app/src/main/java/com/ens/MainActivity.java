@@ -12,7 +12,6 @@ import com.ens.adapters.VideoViewAdapter;
 import com.ens.adapters.YoutubeVideoAdapter;
 import com.ens.bus.NewsLoadedEvent;
 import com.ens.config.ENSApplication;
-import com.ens.exception.ApiErrorEvent;
 import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.nav.drawer.DrawerHeader;
@@ -26,7 +25,6 @@ import com.mindorks.placeholderview.PlaceHolderView;
 import com.synnapps.carouselview.CarouselView;
 
 import java.util.List;
-import java.util.UUID;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -81,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         hideToolbarTitle();
         setupDrawer();
 
+        ENSApplication.saveLoggedInUserId(1);
+
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
 
             if (!task.isSuccessful()) {
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         newsService = new NewsService(this);
+
 
         initializePage();
     }
@@ -174,11 +175,11 @@ public class MainActivity extends AppCompatActivity {
 
         scrollTextView.setSelected(true);
 
-        newsService.getNewsScrollText(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), 0, 5);
-        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.IMAGE_SLIDER, 0, 8);
-        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.YOUTUBE, 0, 15);
-        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.IMAGE, 0, 5);
-        newsService.getAllNewsItems(UUID.fromString("244d5bdf-904c-43f1-9781-c5d8b19821ed"), ContentType.VIDEO, 0, 5);
+        newsService.getNewsScrollText(ENSApplication.getLoggedInUserId(), 0, 5);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE_SLIDER, 0, 8);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.YOUTUBE, 0, 15);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE, 0, 5);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.VIDEO, 0, 5);
 
         /*
         newsPollRecyclerView.setAdapter(new PollCardViewAdapter(this, preparePollCardItems()));
@@ -226,11 +227,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-    }
-
-    public void onApiError(ApiErrorEvent event) {
-        Log.e(TAG, event.toString());
-        Toast.makeText(this, "Something went wrong, please try again.", Toast.LENGTH_SHORT).show();
     }
 
 }

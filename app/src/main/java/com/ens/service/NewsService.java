@@ -14,8 +14,7 @@ import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.model.news.NewsItemAction;
-
-import java.util.UUID;
+import com.ens.model.news.ScrollResponse;
 
 import de.greenrobot.event.EventBus;
 import retrofit2.Call;
@@ -34,7 +33,7 @@ public class NewsService {
         this.context = context;
     }
 
-    public void postComment(UUID userId, UUID newsItemId, String comment){
+    public void postComment(Long userId, Long newsItemId, String comment){
 
         Call<ApiResponse> apiResponseCall = ENSApplication.getNewsApi().postComment(userId, newsItemId, comment);
 
@@ -59,7 +58,7 @@ public class NewsService {
 
     }
 
-    public void postNewsItemAction(UUID userId, UUID newsItemId, ActionType actionType, NewsCardViewAdapter.NewsCardViewHolder holder){
+    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType, NewsCardViewAdapter.NewsCardViewHolder holder){
 
         Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().postNewsItemAction(userId, newsItemId, actionType);
 
@@ -84,7 +83,7 @@ public class NewsService {
 
     }
 
-    public void getAllNewsItems(UUID userId, ContentType contentType, int page, int size){
+    public void getAllNewsItems(Long userId, ContentType contentType, int page, int size){
 
         Call<PagedResponse<NewsItem>> pagedResponseCall = ENSApplication.getNewsApi().getAllNewsItems(userId, contentType, page, size);
 
@@ -109,25 +108,25 @@ public class NewsService {
 
     }
 
-    public void getNewsScrollText(UUID userId, int page, int size){
+    public void getNewsScrollText(Long userId, int page, int size){
 
-        Call<String> scrollTextResponseCall = ENSApplication.getNewsApi().getNewsScrollText(userId, page, size);
+        Call<ScrollResponse> scrollTextResponseCall = ENSApplication.getNewsApi().getNewsScrollText(userId, page, size);
 
-        scrollTextResponseCall.enqueue(new Callback<String>() {
+        scrollTextResponseCall.enqueue(new Callback<ScrollResponse>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ScrollResponse> call, Response<ScrollResponse> response) {
 
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Get News Scroll Text Response : " + response.body());
-                        eventBus.post(new NewsLoadedEvent(ContentType.SCROLL,response.body()));
+                        eventBus.post(new NewsLoadedEvent(ContentType.SCROLL,response.body().getScrollText()));
                     }
                 }
 
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ScrollResponse> call, Throwable t) {
                 eventBus.post(new ApiErrorEvent(t));
             }
         });
