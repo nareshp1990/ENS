@@ -4,6 +4,10 @@ import com.ens.model.location.Area;
 import com.ens.model.location.Country;
 import com.ens.model.location.District;
 import com.ens.model.location.State;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -20,6 +24,9 @@ public class UserResponse implements Serializable {
     private String profileImageUrl;
     private String fcmRegistrationKey;
     private Gender gender;
+
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate dateOfBirth;
     private Country country;
     private State state;

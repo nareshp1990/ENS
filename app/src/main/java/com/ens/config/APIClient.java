@@ -9,8 +9,8 @@ public class APIClient {
 
     private static Retrofit retrofit = null;
 
-    private static String API_BASE_URL = "http://naresh.tplinkdns.com:9292";
-//    private static String API_BASE_URL = "http://192.168.1.70:9191";
+//    private static String API_BASE_URL = "http://naresh.tplinkdns.com:9292";
+    private static String API_BASE_URL = "http://192.168.1.70:9191";
 
     public static Retrofit getClient() {
 

@@ -30,7 +30,7 @@ public interface UserApi {
     Call<ApiResponse> deleteUser(@Path ("userId") Long userId);
 
     @FormUrlEncoded
-    @PATCH("/v1/api/users/{userId}")
+    @PATCH("/v1/api/users/{userId}/fcmkey/update")
     Call<User> updateUserFCMKey(@Path ("userId") Long userId, @Field("fcmKey") String fcmKey);
 
 }

@@ -10,6 +10,7 @@ import com.ens.adapters.CarouselViewListener;
 import com.ens.adapters.NewsCardViewAdapter;
 import com.ens.adapters.VideoViewAdapter;
 import com.ens.adapters.YoutubeVideoAdapter;
+import com.ens.bus.FCMKeyUpdateEvent;
 import com.ens.bus.NewsLoadedEvent;
 import com.ens.config.ENSApplication;
 import com.ens.model.news.ContentType;
@@ -17,6 +18,7 @@ import com.ens.model.news.NewsItem;
 import com.ens.nav.drawer.DrawerHeader;
 import com.ens.nav.drawer.DrawerMenuItem;
 import com.ens.service.NewsService;
+import com.ens.service.UserService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mindorks.butterknifelite.ButterKnifeLite;
@@ -71,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
     private NewsService newsService;
 
+    private UserService userService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
         setupDrawer();
 
         ENSApplication.saveLoggedInUserId(1);
+
+        newsService = new NewsService(this);
+        userService = new UserService(this);
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
 
@@ -93,10 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d(TAG, "### Firebase Token: " + token);
 
+            userService.updateUserFCMKey(ENSApplication.getLoggedInUserId(),token);
+
         });
-
-        newsService = new NewsService(this);
-
 
         initializePage();
     }
@@ -227,6 +233,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void onEvent(FCMKeyUpdateEvent event){
+        Log.d(TAG, "### Firebase Token Updated : " + event );
     }
 
 }
