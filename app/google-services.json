@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "940585004754",
+    "firebase_url": "https://eerojunews.firebaseio.com",
+    "project_id": "eerojunews",
+    "storage_bucket": "eerojunews.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940585004754:android:103f8e3cf5069d77ff470b",
+        "android_client_info": {
+          "package_name": "com.ens"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940585004754-s7u3h6prvdcpsj0aicu49d9vf6l88sc2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ens",
+            "certificate_hash": "74c2924000dfaea9ed09f04b07b96adf18d18e7f"
+          }
+        },
+        {
+          "client_id": "940585004754-uh6gj55hdabqsdrh419s757811ecannr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNrBu266EQcb_fmsxAop-H61GTXX6FSn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940585004754-uh6gj55hdabqsdrh419s757811ecannr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
