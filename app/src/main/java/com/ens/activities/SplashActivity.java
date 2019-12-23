@@ -1,7 +1,5 @@
 package com.ens.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,10 +7,15 @@ import android.util.Log;
 
 import com.ens.MainActivity;
 import com.ens.R;
+import com.ens.config.ENSApplication;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    /** Duration of wait **/
+    /**
+     * Duration of wait
+     **/
     private final int SPLASH_DISPLAY_DELAY_DURATION = 1000;
     private Handler waitHandler = new Handler();
 
@@ -35,9 +38,19 @@ public class SplashActivity extends AppCompatActivity {
                 //The following code will execute after the 5 seconds.
 
                 try {
-                    // After delay start main activity
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
+
+                    if (ENSApplication.isUserLoggedIn()) {
+
+                        // After delay start main activity if user logged in
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+
+                    } else {
+
+                        // After delay start login activity if user not logged in
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
 
                     //Let's Finish Splash Activity since we don't want to show this when user press back button.
                     finish();

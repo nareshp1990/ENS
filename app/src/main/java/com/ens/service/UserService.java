@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ens.bus.FCMKeyUpdateEvent;
+import com.ens.bus.UserCreatedEvent;
 import com.ens.config.ENSApplication;
 import com.ens.exception.ApiErrorEvent;
 import com.ens.model.api.ApiResponse;
@@ -38,7 +39,7 @@ public class UserService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### User Create Response : " + response.body().toString());
-                        eventBus.post(response.body());
+                        eventBus.post(new UserCreatedEvent(response.body()));
                     }
                 }
 

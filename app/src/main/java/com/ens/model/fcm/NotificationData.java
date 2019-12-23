@@ -1,11 +1,9 @@
 package com.ens.model.fcm;
 
 import com.ens.model.news.ContentType;
-import com.ens.model.news.VideoType;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Map;
 
 import lombok.Data;
@@ -18,36 +16,30 @@ public class NotificationData implements Serializable {
     private String title;
     private String content;
     private Long newsItemId;
-    private ContentType contentType;
     private String imageUrl;
-    private String thumbnailImageUrl;
-    private String videoUrl;
-    private VideoType videoType;
     private Long userId;
-    private String smallIcon;
-    private String appName;
-    private LocalDateTime timeStamp;
-    private String largeIcon;
+    private ContentType contentType;
 
-    public NotificationData(RemoteMessage remoteMessage){
+    public NotificationData(RemoteMessage remoteMessage) {
 
-        Map<String, String> data = remoteMessage.getData();
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
 
-        this.title = data.get("title");
-        this.content = data.get("content");
-//        this.newsItemId = Long.parseLong(data.get("newsItemId"));
-//        this.contentType = ContentType.valueOf(data.get("contentType"));
-        this.imageUrl = data.get("imageUrl");
-        if(data.get("thumbnailImageUrl")!=null && !data.get("thumbnailImageUrl").isEmpty()){
-            this.imageUrl = data.get("thumbnailImageUrl");
+        this.title = notification.getTitle();
+        this.content = notification.getBody();
+
+        if (notification.getImageUrl() != null) {
+            this.imageUrl = notification.getImageUrl().toString();
         }
-//        this.videoUrl = data.get("videoUrl");
-//        this.videoType = VideoType.valueOf(data.get("videoType"));
-//        this.userId = Long.parseLong(data.get("userId"));
-//        this.smallIcon = data.get("smallIcon");
-//        this.appName = data.get("appName");
-//        this.timeStamp = LocalDateTime.parse(data.get("timeStamp"));
-//        this.largeIcon = data.get("largeIcon");
+
+        if (remoteMessage.getData() != null) {
+
+            Map<String, String> data = remoteMessage.getData();
+
+            this.newsItemId = Long.parseLong(data.get("newsItemId") == null ? "0" : data.get("newsItemId"));
+            this.userId = Long.parseLong(data.get("userId") == null ? "0" : data.get("userId"));
+            this.contentType = ContentType.valueOf(data.get("contentType"));
+
+        }
 
     }
 

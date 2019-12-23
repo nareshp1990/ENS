@@ -1,6 +1,6 @@
 package com.ens.api;
 
-import com.ens.model.user.UserResponse;
+import com.ens.model.user.User;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -11,6 +11,6 @@ public interface AuthApi {
 
     @FormUrlEncoded
     @POST("/v1/api/auth/login")
-    Call<UserResponse> login(@Field("mobileNumber") String mobileNumber, @Field("password") String password);
+    Call<User> login(@Field("mobileNumber") String mobileNumber, @Field("password") String password);
 
 }

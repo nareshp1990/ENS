@@ -1,68 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainPageSwipeToRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#eceff1"
-    android:fillViewport="true"
-    android:scrollbars="vertical">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="#eceff1"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
-        <TextView
-            android:id="@+id/scrollTextView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:layoutDirection="ltr"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="తాజా వార్తలు, విశ్లేషణల కోసం ఈరోజున్యూస్.నెట్ www.eerojunews.net ను సంప్రదించండి|| వెబ్ చానెల్ వార్తల కోసం EEROJU NEWS SERVICE యూట్యూబ్ ను సందర్శించగలరు|| వార్తలను అభిమానించే వారంతా యూట్యూబులోని EEROJU NEWS SERVICE చానల్ ని SUBSCRIBE చేయండి|| మీ యొక్క నూతన సంస్థల ప్రారంభం, అభివ్రుధ్ధి కార్యక్రమాలు, సంస్థల ప్రెస్ మీట్లను ఈరోజు న్యూస్ సర్వీసు ద్వారా చేయించుకొని విషయాన్ని, సమాచారాన్ని అత్యధిక మీడియా సంస్థల ద్వారా ప్రజలకు తెలియజేసుకునే సదుపాయం పొందండి|| మరిన్ని వివరాలకు 9490280270లో సంప్రదించగలరు"
-            android:textColor="@color/red"
-            android:textDirection="ltr"
-            android:textSize="15sp" />
+            android:orientation="vertical">
 
-        <com.synnapps.carouselview.CarouselView
-            android:id="@+id/mainPageCarouselView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:fillColor="#FFFFFFFF"
-            app:pageColor="#00000000"
-            app:radius="6dp"
-            app:slideInterval="3000"
-            app:strokeColor="#FF777777"
-            app:strokeWidth="1dp" />
+            <TextView
+                android:id="@+id/scrollTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:layoutDirection="ltr"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="తాజా వార్తలు, విశ్లేషణల కోసం ఈరోజున్యూస్.నెట్ www.eerojunews.net ను సంప్రదించండి|| వెబ్ చానెల్ వార్తల కోసం EEROJU NEWS SERVICE యూట్యూబ్ ను సందర్శించగలరు|| వార్తలను అభిమానించే వారంతా యూట్యూబులోని EEROJU NEWS SERVICE చానల్ ని SUBSCRIBE చేయండి|| మీ యొక్క నూతన సంస్థల ప్రారంభం, అభివ్రుధ్ధి కార్యక్రమాలు, సంస్థల ప్రెస్ మీట్లను ఈరోజు న్యూస్ సర్వీసు ద్వారా చేయించుకొని విషయాన్ని, సమాచారాన్ని అత్యధిక మీడియా సంస్థల ద్వారా ప్రజలకు తెలియజేసుకునే సదుపాయం పొందండి|| మరిన్ని వివరాలకు 9490280270లో సంప్రదించగలరు"
+                android:textColor="@color/red"
+                android:textDirection="ltr"
+                android:textSize="15sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/youtubeThumbnailRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/mainPageCarouselView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:fillColor="#FFFFFFFF"
+                app:pageColor="#00000000"
+                app:radius="6dp"
+                app:slideInterval="3000"
+                app:strokeColor="#FF777777"
+                app:strokeWidth="1dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newsCardRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/youtubeThumbnailRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newsPollRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/newsCardRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ensVideoRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/newsPollRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ensVideoRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-</androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

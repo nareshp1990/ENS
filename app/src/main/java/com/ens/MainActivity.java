@@ -19,6 +19,7 @@ import com.ens.nav.drawer.DrawerHeader;
 import com.ens.nav.drawer.DrawerMenuItem;
 import com.ens.service.NewsService;
 import com.ens.service.UserService;
+import com.ens.utils.NetworkState;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mindorks.butterknifelite.ButterKnifeLite;
@@ -34,10 +35,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import de.greenrobot.event.EventBus;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = MainActivity.class.getCanonicalName();
 
@@ -71,9 +73,14 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.fabPostNews)
     private FloatingActionButton fabPostNews;
 
+    @BindView(R.id.mainPageSwipeToRefresh)
+    private SwipeRefreshLayout mainPageSwipeToRefresh;
+
     private NewsService newsService;
 
     private UserService userService;
+
+    private EventBus eventBus = EventBus.getDefault();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +89,52 @@ public class MainActivity extends AppCompatActivity {
         ButterKnifeLite.bind(this);
         hideToolbarTitle();
         setupDrawer();
-
-        ENSApplication.saveLoggedInUserId(1);
+        scrollTextView.setSelected(true);
+        mainPageSwipeToRefresh.setOnRefreshListener(this);
 
         newsService = new NewsService(this);
         userService = new UserService(this);
+
+        if (NetworkState.isInternetAvailable(getApplicationContext())) {
+            updateUserFCMKey();
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (eventBus.isRegistered(this)) {
+            eventBus.unregister(this);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ENSApplication.activityPaused();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ENSApplication.activityResumed();
+
+        if (NetworkState.isInternetAvailable(getApplicationContext())) {
+            initializePage();
+        }
+
+    }
+
+    private void updateUserFCMKey() {
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
 
@@ -100,39 +148,17 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d(TAG, "### Firebase Token: " + token);
 
-            userService.updateUserFCMKey(ENSApplication.getLoggedInUserId(),token);
+            userService.updateUserFCMKey(ENSApplication.getLoggedInUserId(), token);
 
         });
 
-        initializePage();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        ENSApplication.activityPaused();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ENSApplication.activityResumed();
     }
 
     public void onEvent(Boolean isInternetAvailable) {
         Toast.makeText(this, isInternetAvailable ? "Internet Available" : "Internet Not Available", Toast.LENGTH_SHORT).show();
+        if (isInternetAvailable) {
+            initializePage();
+        }
     }
 
     public void hideToolbarTitle() {
@@ -148,14 +174,14 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerView
                 .addView(new DrawerHeader())
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_MESSAGE))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_GROUPS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_NOTIFICATIONS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_TERMS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_SETTINGS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_LOGOUT));
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE, this))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS, this))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_MESSAGE, this))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_GROUPS, this))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_NOTIFICATIONS, this))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_TERMS, this))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_SETTINGS, this))
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_LOGOUT, this));
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.open_drawer, R.string.close_drawer) {
             @Override
@@ -179,8 +205,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializePage() {
 
-        scrollTextView.setSelected(true);
-
         newsService.getNewsScrollText(ENSApplication.getLoggedInUserId(), 0, 5);
         newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE_SLIDER, 0, 8);
         newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.YOUTUBE, 0, 15);
@@ -200,7 +224,9 @@ public class MainActivity extends AppCompatActivity {
         switch (newsLoadedEvent.getContentType()) {
 
             case SCROLL: {
-                scrollTextView.setText(newsLoadedEvent.getScrollText());
+                if (!newsLoadedEvent.getScrollText().isEmpty()) {
+                    scrollTextView.setText(newsLoadedEvent.getScrollText());
+                }
             }
             break;
 
@@ -220,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
             break;
 
             case IMAGE: {
-                newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent(),newsService));
+                newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent(), newsService));
                 newsCardRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             }
             break;
@@ -235,8 +261,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onEvent(FCMKeyUpdateEvent event){
-        Log.d(TAG, "### Firebase Token Updated : " + event );
+    public void onEvent(FCMKeyUpdateEvent event) {
+        Log.d(TAG, "### Firebase Token Updated : " + event);
     }
 
+    @Override
+    public void onRefresh() {
+        //Do your work here
+        initializePage();
+        mainPageSwipeToRefresh.setRefreshing(false);
+    }
 }

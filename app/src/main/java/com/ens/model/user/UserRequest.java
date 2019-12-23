@@ -1,10 +1,5 @@
 package com.ens.model.user;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -22,8 +17,8 @@ public class UserRequest implements Serializable {
     private Gender gender;
     private LocalDate dateOfBirth;
 
-    private Long country;
-    private Long state;
-    private Long district;
-    private Long area;
+    private Long countryId;
+    private Long stateId;
+    private Long districtId;
+    private Long areaId;
 }

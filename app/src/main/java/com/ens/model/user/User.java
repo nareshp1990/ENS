@@ -4,6 +4,11 @@ import com.ens.model.api.DateAudit;
 
 import java.io.Serializable;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class User extends DateAudit implements Serializable {
 
     private Long id;

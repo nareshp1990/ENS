@@ -61,6 +61,6 @@
     <dimen name="main_page_carousel_card_view_corner_radius">10dp</dimen>
     <dimen name="main_page_carousel_card_view_img_height">200dp</dimen>
     <dimen name="main_page_carousel_card_view_img_caption_text_view_margin_top">20dp</dimen>
-    <dimen name="main_page_carousel_card_view_img_caption_text_view_size">20sp</dimen>
+    <dimen name="main_page_carousel_card_view_img_caption_text_view_size">15sp</dimen>
 
 </resources>

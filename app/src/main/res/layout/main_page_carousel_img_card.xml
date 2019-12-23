@@ -20,6 +20,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/main_page_carousel_card_view_img_caption_text_view_margin_top"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:singleLine="true"
         android:text="Hello World!..."
         android:textColor="@color/white"

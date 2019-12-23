@@ -187,4 +187,14 @@ final public class SharedPrefsUtils {
         }
         return false;
     }
+
+    public static void clear(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+        }
+    }
+
 }

@@ -5,7 +5,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ens.MainActivity;
 import com.ens.R;
+import com.ens.utils.SharedPrefsUtils;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.Resolve;
@@ -33,9 +35,12 @@ public class DrawerMenuItem {
     @View(R.id.navDrawerMenuItemIcon)
     private ImageView itemIcon;
 
-    public DrawerMenuItem(Context context, int menuPosition) {
+    private MainActivity activity;
+
+    public DrawerMenuItem(Context context, int menuPosition, MainActivity activity) {
         mContext = context;
         mMenuPosition = menuPosition;
+        this.activity=activity;
     }
 
     @Resolve
@@ -110,6 +115,8 @@ public class DrawerMenuItem {
             case DRAWER_MENU_ITEM_LOGOUT:
                 Toast.makeText(mContext, "Logout", Toast.LENGTH_SHORT).show();
                 if (mCallBack != null) mCallBack.onLogoutMenuSelected();
+                SharedPrefsUtils.clear(mContext);
+                activity.finish();
                 break;
         }
     }

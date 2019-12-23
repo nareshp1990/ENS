@@ -17,9 +17,11 @@ import android.util.Log;
 
 import com.ens.MainActivity;
 import com.ens.R;
+import com.ens.activities.NewsCardDetailedActivity;
 import com.ens.bus.FCMKeyUpdateEvent;
 import com.ens.model.fcm.NotificationData;
 import com.ens.service.UserService;
+import com.ens.utils.AppUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.squareup.picasso.Picasso;
@@ -59,36 +61,33 @@ public class ENSFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, "### Firebase Message Received: " + remoteMessage);
 
-        if (remoteMessage.getData() != null) {
+        final NotificationData notificationData = new NotificationData(remoteMessage);
 
-            final NotificationData notificationData = new NotificationData(remoteMessage);
+        Handler uiHandler = new Handler(Looper.getMainLooper());
 
-            Handler uiHandler = new Handler(Looper.getMainLooper());
+        uiHandler.post(() -> {
 
-            uiHandler.post(() -> {
+            Picasso.get()
+                    .load(notificationData.getImageUrl())
+                    .into(new Target() {
 
-                Picasso.get()
-                        .load(notificationData.getImageUrl())
-                        .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            sendNotification(bitmap, notificationData);
+                        }
 
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                sendNotification(bitmap, notificationData);
-                            }
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
-                            @Override
-                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                        }
 
-                            }
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        }
+                    });
+        });
 
-                            }
-                        });
-            });
-
-        }
     }
 
 
@@ -103,15 +102,36 @@ public class ENSFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent();
+
+        if (notificationData.getContentType() != null) {
+
+            switch (notificationData.getContentType()){
+                case IMAGE: {
+                    intent.setClass(getApplicationContext(), NewsCardDetailedActivity.class);
+                }
+                break;
+                default: {
+                    intent.setClass(getApplicationContext(), MainActivity.class);
+                }
+                break;
+            }
+
+        }else {
+            intent.setClass(getApplicationContext(),MainActivity.class);
+        }
+
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent,0);
+        intent.putExtra("newsItemId",notificationData.getNewsItemId());
+        intent.putExtra("userId",notificationData.getUserId());
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "102";
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            @SuppressLint("WrongConstant") NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, notificationData.getAppName(), NotificationManager.IMPORTANCE_MAX);
+
+            @SuppressLint("WrongConstant") NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "eeroju news", NotificationManager.IMPORTANCE_DEFAULT);
 
             //Configure Notification Channel
             notificationChannel.setDescription(notificationData.getContent());
@@ -133,7 +153,7 @@ public class ENSFirebaseMessagingService extends FirebaseMessagingService {
                 .setLargeIcon(bitmap)
                 .setWhen(System.currentTimeMillis());
 
-        notificationManager.notify(1, notificationBuilder.build());
+        notificationManager.notify(AppUtils.getRandomIntegerBetweenRange(10,100), notificationBuilder.build());
 
     }
 

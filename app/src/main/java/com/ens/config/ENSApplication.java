@@ -10,7 +10,9 @@ import com.ens.api.NewsApi;
 import com.ens.api.PollApi;
 import com.ens.api.UserApi;
 import com.ens.exception.ApiErrorEvent;
+import com.ens.model.user.User;
 import com.ens.utils.SharedPrefsUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.greenrobot.event.EventBus;
@@ -104,5 +106,28 @@ public class ENSApplication extends Application {
 
     public static Long getLoggedInUserId(){
         return SharedPrefsUtils.getLongPreference(getAppContext(),"userId",0);
+    }
+
+    public static void saveLoggedInUser(String userString){
+        SharedPrefsUtils.setStringPreference(getAppContext(),"loggedInUser",userString);
+    }
+
+    public static User getLoggedInUser(){
+
+        String loggedInUser = SharedPrefsUtils.getStringPreference(getAppContext(), "loggedInUser");
+
+        try {
+            return getObjectMapper().readValue(loggedInUser, User.class);
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            Log.e(TAG, "getLoggedInUser: " + e );
+        }
+
+        return null;
+    }
+
+    public static boolean isUserLoggedIn(){
+        return SharedPrefsUtils.getBooleanPreference(getAppContext(),"skipLogin",false);
     }
 }
