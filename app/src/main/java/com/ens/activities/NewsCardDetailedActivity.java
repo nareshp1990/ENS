@@ -133,6 +133,8 @@ public class NewsCardDetailedActivity extends AppCompatActivity implements View.
 
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowTitleEnabled(false);
+        ab.setTitle("");
 
         setListeners();
 
