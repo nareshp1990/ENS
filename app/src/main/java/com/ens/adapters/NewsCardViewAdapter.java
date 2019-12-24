@@ -17,6 +17,7 @@ import com.ens.config.ENSApplication;
 import com.ens.model.news.ActionType;
 import com.ens.model.news.NewsItem;
 import com.ens.service.NewsService;
+import com.ens.utils.AppUtils;
 import com.ens.utils.DateUtils;
 import com.github.abdularis.civ.CircleImageView;
 
@@ -134,17 +135,41 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
             txtNewsCardInstagramShareCount.setText(String.valueOf(newsItem.getInstagramShares()));
             txtNewsCardHelloAppShareCount.setText(String.valueOf(newsItem.getHelloAppShares()));
 
-            layoutLike.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.LIKE,this));
-            layoutUnLike.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.UNLIKE,this));
-            layoutComments.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.COMMENT,this));
-            layoutWhatsappShare.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.WHATSAPP,this));
-            layoutFacebookShare.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.FACEBOOK,this));
-            layoutHelloAppShare.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.HELLO_APP,this));
-            layoutInstagramShare.setOnClickListener(v->postNewsItemAction(newsItem.getNewsItemId(),ActionType.INSTAGRAM,this));
+            layoutLike.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.LIKE, this));
+            layoutUnLike.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.UNLIKE, this));
+            layoutComments.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.COMMENT, this));
+            layoutWhatsappShare.setOnClickListener(v -> {
+
+                AppUtils.launchShareIntent(context, touchViewLayout, newsItem);
+
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.WHATSAPP, this);
+
+            });
+            layoutFacebookShare.setOnClickListener(v -> {
+
+                AppUtils.launchShareIntent(context, touchViewLayout, newsItem);
+
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.FACEBOOK, this);
+
+            });
+            layoutHelloAppShare.setOnClickListener(v -> {
+
+                AppUtils.launchShareIntent(context, touchViewLayout, newsItem);
+
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.HELLO_APP, this);
+
+            });
+            layoutInstagramShare.setOnClickListener(v -> {
+
+                AppUtils.launchShareIntent(context, touchViewLayout, newsItem);
+
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.INSTAGRAM, this);
+
+            });
 
 
-            touchViewLayout.setOnClickListener(v ->{
-                postNewsItemAction(newsItem.getNewsItemId(),ActionType.VIEW,this);
+            touchViewLayout.setOnClickListener(v -> {
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.VIEW, this);
                 openDetailedNewsActivity(newsItem);
             });
 
@@ -155,16 +180,16 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
     private void openDetailedNewsActivity(final NewsItem newsItem) {
 
         Intent intent = new Intent(context, NewsCardDetailedActivity.class);
-        intent.putExtra("news_card_item",newsItem);
+        intent.putExtra("newsItemId", newsItem.getNewsItemId());
         context.startActivity(intent);
 
     }
 
-    public void postNewsItemAction(Long newsItemId, ActionType actionType, NewsCardViewHolder holder){
-        newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(),newsItemId,actionType,holder);
+    public void postNewsItemAction(Long newsItemId, ActionType actionType, NewsCardViewHolder holder) {
+        newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(), newsItemId, actionType, holder);
     }
 
-    public void onEvent(NewsActionEvent newsActionEvent){
+    public void onEvent(NewsActionEvent newsActionEvent) {
 
         newsActionEvent.getNewsCardViewHolder().txtNewsCardViewsCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getViews()));
         newsActionEvent.getNewsCardViewHolder().txtNewsCardLikeCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getLikes()));

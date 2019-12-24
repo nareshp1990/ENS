@@ -13,70 +13,90 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/imgVideoThumbnail"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ens_card" />
-
-            <ImageView
-                android:id="@+id/imgVideoPlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/icon_video_play" />
-
-            <ImageView
-                android:id="@+id/imgVideoDownload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/icon_download" />
-        </RelativeLayout>
-
         <LinearLayout
+            android:id="@+id/touchViewLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/txtVideoHeadline"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgVideoThumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ens_card" />
+
+                <ImageView
+                    android:id="@+id/imgVideoPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_video_play" />
+
+                <ImageView
+                    android:id="@+id/imgVideoDownload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/icon_download"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="170dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ens_fav_icon" />
+
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="అల్లూరి చరిత్ర పరిశోధకులు బాలు"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:padding="5dp">
 
-            <include
-                layout="@layout/news_card_views_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp" />
 
-            <TextView
-                android:id="@+id/txtVideoDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:text="అమెరికా తానామహాసభల్లో విప్లవ వీరుడు అల్లూరి సీతారామరాజు ప్రపంచ చరిత్రను తెలియజేసేందకు ఏర్పాట్లు జరుగుతున్నాయని అల్లూరి యువజన సంఘం జాతీయ కార్యవర్గ సభ్యులు, అల్లూరి చరిత్రపరిశోధకులు ఈఎన్ఎస్ బాలు తెలియజేశారు. విశాఖలో ఆయన మీడియాతో మాట్లాడుతూ, అల్లూరి సంచరించిన ప్రదేశాలతో కూడిన
+                <TextView
+                    android:id="@+id/txtVideoHeadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="అల్లూరి చరిత్ర పరిశోధకులు బాలు"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <include
+                    layout="@layout/news_card_views_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
+
+                <TextView
+                    android:id="@+id/txtVideoDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="అమెరికా తానామహాసభల్లో విప్లవ వీరుడు అల్లూరి సీతారామరాజు ప్రపంచ చరిత్రను తెలియజేసేందకు ఏర్పాట్లు జరుగుతున్నాయని అల్లూరి యువజన సంఘం జాతీయ కార్యవర్గ సభ్యులు, అల్లూరి చరిత్రపరిశోధకులు ఈఎన్ఎస్ బాలు తెలియజేశారు. విశాఖలో ఆయన మీడియాతో మాట్లాడుతూ, అల్లూరి సంచరించిన ప్రదేశాలతో కూడిన
 డాక్యుమెంటరీని కూడా అక్కడ ప్రదర్శించడానికి అమెరికాలోని ప్రవాస భారతీయులతో చర్చలు జరుపుతున్నట్టు ఆయన వివరించారు. అల్లూరి సంచరించిన ప్రదేశాలు, తెల్లవాడిపై సీతారామరాజు మన్యం పితూరి ఉద్యమం చేసిన క్రిష్ణదేవిట ప్రాంతం, రంపచోడవరం, అల్లూరి
 సమాధులు, ఆయన రహస్య సమావేశాలు నిర్వహించిన ప్రదేశాలు, అల్లూరి ప్రధాన అనచరులు గాం గంటం దొర, మల్లు దొరలు పుట్టిన ప్రదేశాలతో సైతం ఈ డాక్యుమెంటరీని రూపొందించడం జరిగిందన్నారు. అమెరికాలో ఉన్న తెలుగువారికి అల్లూరి వీరోచిత" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

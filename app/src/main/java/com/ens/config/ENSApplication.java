@@ -12,6 +12,7 @@ import com.ens.api.UserApi;
 import com.ens.exception.ApiErrorEvent;
 import com.ens.model.user.User;
 import com.ens.utils.SharedPrefsUtils;
+import com.facebook.FacebookSdk;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,6 +45,8 @@ public class ENSApplication extends Application {
         super.onCreate();
         ENSApplication.context = getApplicationContext();
         eventBus.register(this);
+        FacebookSdk.setApplicationId("2633898890029437");
+        FacebookSdk.sdkInitialize(ENSApplication.context);
     }
 
     public static boolean isActivityVisible() {

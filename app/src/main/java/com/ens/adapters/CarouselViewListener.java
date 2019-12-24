@@ -1,15 +1,19 @@
 package com.ens.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ens.R;
+import com.ens.activities.NewsCardDetailedActivity;
+import com.ens.config.ENSApplication;
+import com.ens.model.news.ActionType;
 import com.ens.model.news.NewsItem;
+import com.ens.service.NewsService;
 import com.synnapps.carouselview.ImageClickListener;
 import com.synnapps.carouselview.ViewListener;
 
@@ -19,10 +23,12 @@ public class CarouselViewListener implements ViewListener, ImageClickListener {
 
     private List<NewsItem> carouselViewItems;
     private Context context;
+    private NewsService newsService;
 
-    public CarouselViewListener(List<NewsItem> carouselViewItems, Context context) {
+    public CarouselViewListener(List<NewsItem> carouselViewItems, Context context, NewsService newsService) {
         this.carouselViewItems = carouselViewItems;
         this.context = context;
+        this.newsService = newsService;
     }
 
     @Override
@@ -43,7 +49,10 @@ public class CarouselViewListener implements ViewListener, ImageClickListener {
     @Override
     public void onClick(int position) {
 
-        Toast.makeText(context, "Clicked item: " + carouselViewItems.get(position).getHeadLine(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(context, NewsCardDetailedActivity.class);
+        intent.putExtra("newsItemId", carouselViewItems.get(position).getNewsItemId());
+        context.startActivity(intent);
 
+        newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(), carouselViewItems.get(position).getNewsItemId(), ActionType.VIEW);
     }
 }

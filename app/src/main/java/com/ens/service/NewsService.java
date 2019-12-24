@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ens.adapters.NewsCardViewAdapter;
+import com.ens.adapters.VideoViewAdapter;
 import com.ens.bus.NewsActionEvent;
 import com.ens.bus.NewsLoadedEvent;
 import com.ens.config.ENSApplication;
@@ -15,6 +16,9 @@ import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.model.news.NewsItemAction;
 import com.ens.model.news.ScrollResponse;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import de.greenrobot.event.EventBus;
 import retrofit2.Call;
@@ -83,9 +87,37 @@ public class NewsService {
 
     }
 
-    public void getAllNewsItems(Long userId, ContentType contentType, int page, int size){
+    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType, VideoViewAdapter.VideoViewHolder holder){
 
-        Call<PagedResponse<NewsItem>> pagedResponseCall = ENSApplication.getNewsApi().getAllNewsItems(userId, contentType, page, size);
+        Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().postNewsItemAction(userId, newsItemId, actionType);
+
+        newsItemActionResponseCall.enqueue(new Callback<NewsItemAction>() {
+            @Override
+            public void onResponse(Call<NewsItemAction> call, Response<NewsItemAction> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i(TAG, "### Post News Item Action Response : " + response.body().toString());
+                        eventBus.post(new NewsActionEvent(response.body(),holder));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<NewsItemAction> call, Throwable t) {
+                eventBus.post(new ApiErrorEvent(t));
+            }
+        });
+
+    }
+
+    public void getAllNewsItems(Long userId, ContentType contentType, long newsItemId, int page, int size){
+
+        Set<ContentType> contentTypes = new HashSet<>();
+        contentTypes.add(contentType);
+
+        Call<PagedResponse<NewsItem>> pagedResponseCall = ENSApplication.getNewsApi().getAllNewsItems(userId, contentTypes, newsItemId, page, size);
 
         pagedResponseCall.enqueue(new Callback<PagedResponse<NewsItem>>() {
             @Override
@@ -127,6 +159,81 @@ public class NewsService {
 
             @Override
             public void onFailure(Call<ScrollResponse> call, Throwable t) {
+                eventBus.post(new ApiErrorEvent(t));
+            }
+        });
+
+    }
+
+    public void getNewsItemUserAction(Long userId, Long newsItemId){
+
+        Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().getNewsItemUserActions(userId, newsItemId);
+
+        newsItemActionResponseCall.enqueue(new Callback<NewsItemAction>() {
+            @Override
+            public void onResponse(Call<NewsItemAction> call, Response<NewsItemAction> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i(TAG, "### Post News Item Action Response : " + response.body().toString());
+                        eventBus.post(new NewsActionEvent(response.body()));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<NewsItemAction> call, Throwable t) {
+                eventBus.post(new ApiErrorEvent(t));
+            }
+        });
+
+    }
+
+    public void getNewsItemById(Long userId, Long newsItemId){
+
+        Call<NewsItem> responseCall = ENSApplication.getNewsApi().getNewsItemById(userId, newsItemId);
+
+        responseCall.enqueue(new Callback<NewsItem>() {
+            @Override
+            public void onResponse(Call<NewsItem> call, Response<NewsItem> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i(TAG, "### Get News Items Response : " + response.body().toString());
+                        eventBus.post(new NewsLoadedEvent(response.body()));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<NewsItem> call, Throwable t) {
+                eventBus.post(new ApiErrorEvent(t));
+            }
+        });
+
+    }
+
+    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType){
+
+        Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().postNewsItemAction(userId, newsItemId, actionType);
+
+        newsItemActionResponseCall.enqueue(new Callback<NewsItemAction>() {
+            @Override
+            public void onResponse(Call<NewsItemAction> call, Response<NewsItemAction> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i(TAG, "### Post News Item Action Response : " + response.body().toString());
+                        eventBus.post(new NewsActionEvent(response.body()));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<NewsItemAction> call, Throwable t) {
                 eventBus.post(new ApiErrorEvent(t));
             }
         });

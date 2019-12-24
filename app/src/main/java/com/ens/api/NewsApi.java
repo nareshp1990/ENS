@@ -8,6 +8,8 @@ import com.ens.model.news.NewsItem;
 import com.ens.model.news.NewsItemAction;
 import com.ens.model.news.ScrollResponse;
 
+import java.util.Set;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -27,8 +29,14 @@ public interface NewsApi {
     Call<NewsItemAction> postNewsItemAction(@Path("userId") Long userId, @Path("newsItemId") Long newsItemId, @Field("actionType")ActionType actionType);
 
     @GET("/v1/api/news/{userId}")
-    Call<PagedResponse<NewsItem>> getAllNewsItems(@Path("userId") Long userId, @Query("contentType")ContentType contentType, @Query("page") int page, @Query("size") int size);
+    Call<PagedResponse<NewsItem>> getAllNewsItems(@Path("userId") Long userId, @Query("contentTypes") Set<ContentType> contentTypes, @Query("newsItemId") Long newsItemId, @Query("page") int page, @Query("size") int size);
 
     @GET("/v1/api/news/{userId}/scroll")
     Call<ScrollResponse> getNewsScrollText(@Path("userId") Long userId, @Query("page") int page, @Query("size") int size);
+
+    @GET("/v1/api/news/{userId}/{newsItemId}/action")
+    Call<NewsItemAction> getNewsItemUserActions(@Path("userId") Long userId, @Path("newsItemId") Long newsItemId);
+
+    @GET("/v1/api/news/{userId}/{newsItemId}")
+    Call<NewsItem> getNewsItemById(@Path("userId") Long userId, @Path("newsItemId") Long newsItemId);
 }

@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ens.R;
 import com.ens.activities.ExoPlayerActivity;
+import com.ens.bus.NewsActionEvent;
+import com.ens.config.ENSApplication;
+import com.ens.model.news.ActionType;
 import com.ens.model.news.NewsItem;
+import com.ens.service.NewsService;
+import com.ens.utils.AppUtils;
 import com.ens.utils.DateUtils;
 import com.github.abdularis.civ.CircleImageView;
 
@@ -21,15 +25,20 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import de.greenrobot.event.EventBus;
 
 public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.VideoViewHolder> {
 
     private Context context;
     private List<NewsItem> newsItems;
+    private NewsService newsService;
+    private EventBus eventBus = EventBus.getDefault();
 
-    public VideoViewAdapter(Context context, List<NewsItem> newsItems) {
+    public VideoViewAdapter(Context context, List<NewsItem> newsItems, NewsService newsService) {
         this.context = context;
         this.newsItems = newsItems;
+        this.newsService = newsService;
+        eventBus.register(this);
     }
 
     @NonNull
@@ -70,6 +79,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
         private TextView txtNewsCardInstagramShareCount;
 
 
+        private LinearLayout touchViewLayout;
         private LinearLayout layoutLike;
         private LinearLayout layoutUnLike;
         private LinearLayout layoutComments;
@@ -99,6 +109,7 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
             txtNewsCardInstagramShareCount = view.findViewById(R.id.txtNewsCardInstagramShareCount);
             txtNewsCardHelloAppShareCount = view.findViewById(R.id.txtNewsCardHelloAppShareCount);
 
+            touchViewLayout = view.findViewById(R.id.touchViewLayout);
             layoutLike = view.findViewById(R.id.layoutLike);
             layoutUnLike = view.findViewById(R.id.layoutUnLike);
             layoutComments = view.findViewById(R.id.layoutComments);
@@ -128,9 +139,30 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
             txtNewsCardInstagramShareCount.setText(String.valueOf(newsItem.getInstagramShares()));
             txtNewsCardHelloAppShareCount.setText(String.valueOf(newsItem.getHelloAppShares()));
 
-            layoutLike.setOnClickListener(v -> Toast.makeText(context, String.valueOf(newsItem.getLikes()), Toast.LENGTH_LONG).show());
+            layoutLike.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.LIKE, this));
+            layoutUnLike.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.UNLIKE, this));
+            layoutComments.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.COMMENT, this));
+            layoutWhatsappShare.setOnClickListener(v -> {
+                AppUtils.launchShareIntent(context,touchViewLayout,newsItem);
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.WHATSAPP, this);
+            });
+            layoutFacebookShare.setOnClickListener(v -> {
+                AppUtils.launchShareIntent(context,touchViewLayout,newsItem);
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.FACEBOOK, this);
+            });
+            layoutHelloAppShare.setOnClickListener(v -> {
+                AppUtils.launchShareIntent(context,touchViewLayout,newsItem);
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.HELLO_APP, this);
+            });
+            layoutInstagramShare.setOnClickListener(v -> {
+                AppUtils.launchShareIntent(context,touchViewLayout,newsItem);
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.INSTAGRAM, this);
+            });
 
-            View.OnClickListener onClickListener = v -> playVideo(newsItem.getVideoUrl());
+            View.OnClickListener onClickListener = v -> {
+                postNewsItemAction(newsItem.getNewsItemId(), ActionType.VIEW, this);
+                playVideo(newsItem.getVideoUrl());
+            };
 
             imgVideoThumbnail.setOnClickListener(onClickListener);
             imgVideoPlay.setOnClickListener(onClickListener);
@@ -142,6 +174,26 @@ public class VideoViewAdapter extends RecyclerView.Adapter<VideoViewAdapter.Vide
         Intent mIntent = ExoPlayerActivity.getStartIntent(context, url);
         context.startActivity(mIntent);
 
+    }
+
+    public void postNewsItemAction(Long newsItemId, ActionType actionType, VideoViewAdapter.VideoViewHolder holder) {
+        newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(), newsItemId, actionType, holder);
+    }
+
+    public void onEvent(NewsActionEvent newsActionEvent) {
+
+        if (newsActionEvent.getVideoViewHolder() == null || newsActionEvent.getNewsItemAction() == null) {
+            return;
+        }
+
+        newsActionEvent.getVideoViewHolder().txtNewsCardViewsCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getViews()));
+        newsActionEvent.getVideoViewHolder().txtNewsCardLikeCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getLikes()));
+        newsActionEvent.getVideoViewHolder().txtNewsCardUnLikeCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getUnLikes()));
+        newsActionEvent.getVideoViewHolder().txtNewsCardCommentsCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getComments()));
+        newsActionEvent.getVideoViewHolder().txtNewsCardWhatsAppShareCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getWhatsAppShares()));
+        newsActionEvent.getVideoViewHolder().txtNewsCardFacebookShareCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getFacebookShares()));
+        newsActionEvent.getVideoViewHolder().txtNewsCardInstagramShareCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getInstagramShares()));
+        newsActionEvent.getVideoViewHolder().txtNewsCardHelloAppShareCount.setText(String.valueOf(newsActionEvent.getNewsItemAction().getHelloAppShares()));
     }
 
 }

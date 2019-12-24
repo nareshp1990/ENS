@@ -206,10 +206,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void initializePage() {
 
         newsService.getNewsScrollText(ENSApplication.getLoggedInUserId(), 0, 5);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE_SLIDER, 0, 8);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.YOUTUBE, 0, 15);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE, 0, 5);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.VIDEO, 0, 5);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE_SLIDER,0, 0, 8);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.YOUTUBE,0, 0, 15);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE,0, 0, 5);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.VIDEO,0, 0, 5);
 
         /*
         newsPollRecyclerView.setAdapter(new PollCardViewAdapter(this, preparePollCardItems()));
@@ -220,6 +220,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     public void onEvent(NewsLoadedEvent newsLoadedEvent) {
+
+        if (newsLoadedEvent.getContentType() == null) {
+            return;
+        }
 
         switch (newsLoadedEvent.getContentType()) {
 
@@ -232,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             case IMAGE_SLIDER: {
                 List<NewsItem> newsItems = newsLoadedEvent.getNewsItemPagedResponse().getContent();
-                CarouselViewListener carouselViewListener = new CarouselViewListener(newsItems, this);
+                CarouselViewListener carouselViewListener = new CarouselViewListener(newsItems, this,newsService);
                 mainPageCarouselView.setViewListener(carouselViewListener);
                 mainPageCarouselView.setPageCount(newsItems.size());
                 mainPageCarouselView.setImageClickListener(carouselViewListener);
@@ -252,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             break;
 
             case VIDEO: {
-                ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent()));
+                ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent(),newsService));
                 ensVideoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             }
             break;

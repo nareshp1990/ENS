@@ -16,6 +16,7 @@ public class NewsLoadedEvent {
     private ContentType contentType;
     private PagedResponse<NewsItem> newsItemPagedResponse;
     private String scrollText;
+    private NewsItem newsItem;
 
     public NewsLoadedEvent(ContentType contentType, String scrollText) {
         this.contentType = contentType;
@@ -25,5 +26,9 @@ public class NewsLoadedEvent {
     public NewsLoadedEvent(ContentType contentType, PagedResponse<NewsItem> newsItemPagedResponse) {
         this.contentType = contentType;
         this.newsItemPagedResponse = newsItemPagedResponse;
+    }
+
+    public NewsLoadedEvent(NewsItem newsItem) {
+        this.newsItem = newsItem;
     }
 }
