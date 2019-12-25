@@ -3,6 +3,9 @@ package com.ens.service;
 import android.content.Context;
 import android.util.Log;
 
+import com.ens.adapters.PollCardViewAdapter;
+import com.ens.bus.PollsLoadedEvent;
+import com.ens.bus.VoteCastedEvent;
 import com.ens.config.ENSApplication;
 import com.ens.exception.ApiErrorEvent;
 import com.ens.model.api.PagedResponse;
@@ -36,7 +39,7 @@ public class PollService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Get Polls Response : " + response.body().toString());
-                        eventBus.post(response.body());
+                        eventBus.post(new PollsLoadedEvent(response.body()));
                     }
                 }
             }
@@ -49,7 +52,7 @@ public class PollService {
 
     }
 
-    public void castVote(Long userId, Long pollId, VoteRequest voteRequest){
+    public void castVote(Long userId, Long pollId, VoteRequest voteRequest, PollCardViewAdapter.PollCardViewHolder pollCardViewHolder){
 
         Call<Poll> pollResponseCall = ENSApplication.getPollApi().castVote(userId, pollId, voteRequest);
 
@@ -59,7 +62,7 @@ public class PollService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Cat Vote Response : " + response.body().toString());
-                        eventBus.post(response.body());
+                        eventBus.post(new VoteCastedEvent(response.body(),pollCardViewHolder));
                     }
                 }
             }

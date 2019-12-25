@@ -23,58 +23,19 @@
             android:text="How long have you used our products/service?"
             android:textSize="15sp" />
 
-        <com.skydoves.progressview.ProgressView
-            android:id="@+id/pollProgressView"
+        <LinearLayout
+            android:id="@+id/progressViewLayout"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:clickable="true"
-            app:progressView_autoAnimate="true"
-            app:progressView_colorBackground="@color/grey"
-            app:progressView_colorProgress="@color/blue"
-            app:progressView_labelColorInner="@color/white"
-            app:progressView_labelColorOuter="@color/black"
-            app:progressView_labelSize="13sp"
-            app:progressView_labelSpace="10dp"
-            app:progressView_labelText="achieve 65%"
-            app:progressView_labelTypeface="normal"
-            app:progressView_max="100"
-            app:progressView_min="15"
-            app:progressView_padding="1dp"
-            app:progressView_progress="80"
-            app:progressView_radius="5dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"/>
 
         <RadioGroup
             android:id="@+id/radioGroupPoll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp">
-
-            <RadioButton
-                android:id="@+id/rdbOption1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Less than 6 months" />
-
-            <RadioButton
-                android:id="@+id/rdbOption2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1 year to less than 3 years" />
-
-            <RadioButton
-                android:id="@+id/rdbOption3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="3 years to less than 5 years" />
-
-            <RadioButton
-                android:id="@+id/rdbOption4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="5 years or more" />
-
-        </RadioGroup>
+            android:padding="5dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

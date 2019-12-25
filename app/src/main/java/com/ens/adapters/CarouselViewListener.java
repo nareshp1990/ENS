@@ -19,6 +19,8 @@ import com.synnapps.carouselview.ViewListener;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
 public class CarouselViewListener implements ViewListener, ImageClickListener {
 
     private List<NewsItem> carouselViewItems;

@@ -8,16 +8,19 @@ import android.widget.Toast;
 
 import com.ens.adapters.CarouselViewListener;
 import com.ens.adapters.NewsCardViewAdapter;
+import com.ens.adapters.PollCardViewAdapter;
 import com.ens.adapters.VideoViewAdapter;
 import com.ens.adapters.YoutubeVideoAdapter;
 import com.ens.bus.FCMKeyUpdateEvent;
 import com.ens.bus.NewsLoadedEvent;
+import com.ens.bus.PollsLoadedEvent;
 import com.ens.config.ENSApplication;
 import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.nav.drawer.DrawerHeader;
 import com.ens.nav.drawer.DrawerMenuItem;
 import com.ens.service.NewsService;
+import com.ens.service.PollService;
 import com.ens.service.UserService;
 import com.ens.utils.NetworkState;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -80,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private UserService userService;
 
+    private PollService pollService;
+
     private EventBus eventBus = EventBus.getDefault();
 
     @Override
@@ -94,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         newsService = new NewsService(this);
         userService = new UserService(this);
+        pollService = new PollService(this);
 
         if (NetworkState.isInternetAvailable(getApplicationContext())) {
             updateUserFCMKey();
@@ -206,14 +212,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void initializePage() {
 
         newsService.getNewsScrollText(ENSApplication.getLoggedInUserId(), 0, 5);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE_SLIDER,0, 0, 8);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.YOUTUBE,0, 0, 15);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE,0, 0, 5);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.VIDEO,0, 0, 5);
-
-        /*
-        newsPollRecyclerView.setAdapter(new PollCardViewAdapter(this, preparePollCardItems()));
-        newsPollRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));*/
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE_SLIDER, 0, 0, 8);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.YOUTUBE, 0, 0, 15);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE, 0, 0, 5);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.VIDEO, 0, 0, 5);
+        pollService.getPolls(ENSApplication.getLoggedInUserId(), 0, 5);
 
         fabPostNews.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "Create News", Toast.LENGTH_SHORT).show());
 
@@ -221,43 +224,71 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void onEvent(NewsLoadedEvent newsLoadedEvent) {
 
-        if (newsLoadedEvent.getContentType() == null) {
+        if (newsLoadedEvent == null || newsLoadedEvent.getContentType() == null) {
             return;
         }
 
         switch (newsLoadedEvent.getContentType()) {
 
             case SCROLL: {
-                if (!newsLoadedEvent.getScrollText().isEmpty()) {
+
+                if (newsLoadedEvent.getScrollText() != null && !newsLoadedEvent.getScrollText().isEmpty()) {
+
                     scrollTextView.setText(newsLoadedEvent.getScrollText());
+
                 }
+
             }
             break;
 
             case IMAGE_SLIDER: {
-                List<NewsItem> newsItems = newsLoadedEvent.getNewsItemPagedResponse().getContent();
-                CarouselViewListener carouselViewListener = new CarouselViewListener(newsItems, this,newsService);
-                mainPageCarouselView.setViewListener(carouselViewListener);
-                mainPageCarouselView.setPageCount(newsItems.size());
-                mainPageCarouselView.setImageClickListener(carouselViewListener);
+
+                if (newsLoadedEvent.getNewsItemPagedResponse() != null && newsLoadedEvent.getNewsItemPagedResponse().getContent() != null) {
+
+                    List<NewsItem> newsItems = newsLoadedEvent.getNewsItemPagedResponse().getContent();
+                    CarouselViewListener carouselViewListener = new CarouselViewListener(newsItems, this, newsService);
+                    mainPageCarouselView.setViewListener(carouselViewListener);
+                    mainPageCarouselView.setPageCount(newsItems.size());
+                    mainPageCarouselView.setImageClickListener(carouselViewListener);
+
+                }
+
             }
             break;
 
             case YOUTUBE: {
-                youtubeThumbnailRecyclerView.setAdapter(new YoutubeVideoAdapter(newsLoadedEvent.getNewsItemPagedResponse().getContent(), this));
-                youtubeThumbnailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+                if (newsLoadedEvent.getNewsItemPagedResponse() != null && newsLoadedEvent.getNewsItemPagedResponse().getContent() != null) {
+
+                    youtubeThumbnailRecyclerView.setAdapter(new YoutubeVideoAdapter(newsLoadedEvent.getNewsItemPagedResponse().getContent(), this));
+                    youtubeThumbnailRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+                }
+
             }
             break;
 
             case IMAGE: {
-                newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent(), newsService));
-                newsCardRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+                if (newsLoadedEvent.getNewsItemPagedResponse() != null && newsLoadedEvent.getNewsItemPagedResponse().getContent() != null) {
+
+                    newsCardRecyclerView.setAdapter(new NewsCardViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent(), newsService));
+                    newsCardRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+                }
+
             }
             break;
 
             case VIDEO: {
-                ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent(),newsService));
-                ensVideoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+                if (newsLoadedEvent.getNewsItemPagedResponse() != null && newsLoadedEvent.getNewsItemPagedResponse().getContent() != null) {
+
+                    ensVideoRecyclerView.setAdapter(new VideoViewAdapter(this, newsLoadedEvent.getNewsItemPagedResponse().getContent(), newsService));
+                    ensVideoRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+                }
+
             }
             break;
 
@@ -267,6 +298,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void onEvent(FCMKeyUpdateEvent event) {
         Log.d(TAG, "### Firebase Token Updated : " + event);
+    }
+
+    public void onEvent(PollsLoadedEvent pollsLoadedEvent) {
+
+        if (pollsLoadedEvent != null && pollsLoadedEvent.getPollPagedResponse() != null && pollsLoadedEvent.getPollPagedResponse().getContent() != null) {
+
+            newsPollRecyclerView.setAdapter(new PollCardViewAdapter(this, pollsLoadedEvent.getPollPagedResponse().getContent(), pollService));
+            newsPollRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        }
+
     }
 
     @Override

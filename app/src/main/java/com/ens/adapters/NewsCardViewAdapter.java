@@ -38,7 +38,9 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
         this.context = context;
         this.newsItems = newsItems;
         this.newsService = newsService;
-        eventBus.register(this);
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
     }
 
     @NonNull

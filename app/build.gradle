@@ -50,7 +50,7 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.1'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.1'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.1'
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.10.1'
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.3.0-rc1'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: '2.10.1'
     implementation group: 'de.greenrobot', name: 'eventbus', version: '2.4.1'
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
@@ -60,6 +60,7 @@ dependencies {
     implementation group: 'com.squareup.picasso', name: 'picasso', version: '2.71828'
     implementation 'com.android.support:support-compat:28.0.0'
     implementation 'com.facebook.android:facebook-share:[5,6)'
+    implementation 'jp.wasabeef:glide-transformations:4.0.0'
 
     compileOnly "org.projectlombok:lombok:1.18.10"
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
