@@ -216,7 +216,7 @@ public class PollCardViewAdapter extends RecyclerView.Adapter<PollCardViewAdapte
 //                .setLabelSize(13f)
 //                .setLabelSpace(10f)
                 .setLabelTypeface(Typeface.NORMAL)
-                .setProgressbarPadding(10f)
+                .setProgressbarPadding(0f)
                 .setProgressbarRadius(20f)
                 .build();
 

@@ -6,11 +6,14 @@ import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.model.news.NewsItemAction;
+import com.ens.model.news.NewsItemRequest;
 import com.ens.model.news.ScrollResponse;
+import com.ens.model.news.VideoRequest;
 
 import java.util.Set;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -39,4 +42,11 @@ public interface NewsApi {
 
     @GET("/v1/api/news/{userId}/{newsItemId}")
     Call<NewsItem> getNewsItemById(@Path("userId") Long userId, @Path("newsItemId") Long newsItemId);
+
+    @POST("/v1/api/news/{userId}")
+    Call<ApiResponse> createNews(@Path("userId") Long userId, @Body NewsItemRequest newsItemRequest);
+
+    @POST("/v1/api/news/{userId}/video")
+    Call<ApiResponse> createVideoNews(@Path("userId") Long userId, @Body VideoRequest videoRequest);
+
 }

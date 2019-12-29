@@ -1,12 +1,16 @@
 package com.ens;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ens.adapters.CarouselViewListener;
+import com.ens.activities.DashboardActivity;
+import com.ens.activities.NewsCardDetailedActivity;
+import com.ens.adapters.BannerViewHolder;
 import com.ens.adapters.NewsCardViewAdapter;
 import com.ens.adapters.PollCardViewAdapter;
 import com.ens.adapters.VideoViewAdapter;
@@ -15,6 +19,7 @@ import com.ens.bus.FCMKeyUpdateEvent;
 import com.ens.bus.NewsLoadedEvent;
 import com.ens.bus.PollsLoadedEvent;
 import com.ens.config.ENSApplication;
+import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.nav.drawer.DrawerHeader;
@@ -22,13 +27,17 @@ import com.ens.nav.drawer.DrawerMenuItem;
 import com.ens.service.NewsService;
 import com.ens.service.PollService;
 import com.ens.service.UserService;
+import com.ens.utils.AppUtils;
 import com.ens.utils.NetworkState;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mindorks.butterknifelite.ButterKnifeLite;
 import com.mindorks.butterknifelite.annotations.BindView;
 import com.mindorks.placeholderview.PlaceHolderView;
-import com.synnapps.carouselview.CarouselView;
+import com.zhpan.bannerview.BannerViewPager;
+import com.zhpan.bannerview.constants.IndicatorGravity;
+import com.zhpan.bannerview.constants.IndicatorSlideMode;
+import com.zhpan.bannerview.constants.PageStyle;
 
 import java.util.List;
 
@@ -40,6 +49,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import de.greenrobot.event.EventBus;
+
+import static com.ens.utils.AppUtils.PERMISSION_REQUEST_CODE;
 
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
@@ -57,9 +68,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @BindView(R.id.scrollTextView)
     private TextView scrollTextView;
-
-    @BindView(R.id.mainPageCarouselView)
-    private CarouselView mainPageCarouselView;
 
     @BindView(R.id.youtubeThumbnailRecyclerView)
     private RecyclerView youtubeThumbnailRecyclerView;
@@ -87,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private EventBus eventBus = EventBus.getDefault();
 
+    private BannerViewPager<NewsItem, BannerViewHolder> bannerViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +113,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         if (NetworkState.isInternetAvailable(getApplicationContext())) {
             updateUserFCMKey();
+        }
+
+        if (!AppUtils.checkPermission(this)) {
+            AppUtils.requestPermission(this);
         }
 
     }
@@ -127,6 +141,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     protected void onPause() {
         super.onPause();
         ENSApplication.activityPaused();
+
+        if (bannerViewPager != null) {
+            bannerViewPager.stopLoop();
+        }
     }
 
     @Override
@@ -136,6 +154,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         if (NetworkState.isInternetAvailable(getApplicationContext())) {
             initializePage();
+        }
+
+        if (bannerViewPager != null) {
+            bannerViewPager.startLoop();
         }
 
     }
@@ -211,14 +233,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void initializePage() {
 
-        newsService.getNewsScrollText(ENSApplication.getLoggedInUserId(), 0, 5);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE_SLIDER, 0, 0, 8);
+        newsService.getNewsScrollText(ENSApplication.getLoggedInUserId(), 0, 10);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE_SLIDER, 0, 0, 10);
         newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.YOUTUBE, 0, 0, 15);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE, 0, 0, 5);
-        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.VIDEO, 0, 0, 5);
-        pollService.getPolls(ENSApplication.getLoggedInUserId(), 0, 5);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.IMAGE, 0, 0, 10);
+        newsService.getAllNewsItems(ENSApplication.getLoggedInUserId(), ContentType.VIDEO, 0, 0, 10);
+        pollService.getPolls(ENSApplication.getLoggedInUserId(), 0, 10);
 
-        fabPostNews.setOnClickListener(v -> Toast.makeText(getApplicationContext(), "Create News", Toast.LENGTH_SHORT).show());
+        fabPostNews.setOnClickListener(v -> {
+            Toast.makeText(getApplicationContext(), "Create News", Toast.LENGTH_SHORT).show();
+
+            startActivity(new Intent(this, DashboardActivity.class));
+
+        });
 
     }
 
@@ -246,12 +273,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 if (newsLoadedEvent.getNewsItemPagedResponse() != null && newsLoadedEvent.getNewsItemPagedResponse().getContent() != null) {
 
                     List<NewsItem> newsItems = newsLoadedEvent.getNewsItemPagedResponse().getContent();
-                    CarouselViewListener carouselViewListener = new CarouselViewListener(newsItems, this, newsService);
-                    mainPageCarouselView.setViewListener(carouselViewListener);
-                    mainPageCarouselView.setPageCount(newsItems.size());
-                    mainPageCarouselView.setImageClickListener(carouselViewListener);
 
+                    initBannerViewPager(newsItems);
                 }
+
 
             }
             break;
@@ -316,5 +341,51 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         //Do your work here
         initializePage();
         mainPageSwipeToRefresh.setRefreshing(false);
+    }
+
+    private void initBannerViewPager(List<NewsItem> newsItems) {
+
+        bannerViewPager = findViewById(R.id.banner_view);
+        bannerViewPager.setPageStyle(PageStyle.MULTI_PAGE_SCALE)
+                .setInterval(3000)
+                .setCanLoop(false)
+                .setAutoPlay(true)
+                .setRoundCorner(15)
+                .setIndicatorColor(Color.parseColor("#BDBDBD"), Color.parseColor("#FFFFFF"))
+                .setIndicatorGravity(IndicatorGravity.CENTER)
+                .setScrollDuration(1000).setHolderCreator(BannerViewHolder::new)
+                .setIndicatorSlideMode(IndicatorSlideMode.SMOOTH)
+                .setOnPageClickListener(position -> {
+
+                    Intent intent = new Intent(this, NewsCardDetailedActivity.class);
+                    intent.putExtra("newsItemId", newsItems.get(position).getNewsItemId());
+                    startActivity(intent);
+
+                    newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(), newsItems.get(position).getNewsItemId(), ActionType.VIEW);
+
+                }).create(newsItems);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE: {
+
+                if (grantResults.length > 0) {
+
+                    if (!AppUtils.isPermissionsGranted(grantResults)) {
+
+                        AppUtils.requestPermission(this);
+
+                    }
+
+                }
+
+            }
+            break;
+        }
+
     }
 }

@@ -5,8 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".config.ENSApplication"
@@ -17,7 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.DashboardActivity"></activity>
+        <activity android:name=".activities.CreateNewsActivity" />
+        <activity android:name=".activities.FullScreenImageActivity" />
+        <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RegistrationActivity" />
         <activity android:name=".activities.NewsCardDetailedActivity" />
         <activity android:name=".activities.ExoPlayerActivity" />
@@ -83,12 +87,12 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
-
-        <provider android:authorities="com.facebook.app.FacebookContentProvider2633898890029437"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider2633898890029437"
+            android:exported="true" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

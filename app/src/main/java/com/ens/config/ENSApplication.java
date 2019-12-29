@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ens.api.AuthApi;
+import com.ens.api.ContentApi;
 import com.ens.api.NewsApi;
 import com.ens.api.PollApi;
 import com.ens.api.UserApi;
@@ -39,6 +40,8 @@ public class ENSApplication extends Application {
     private static NewsApi newsApi;
 
     private static PollApi pollApi;
+
+    private static ContentApi contentApi;
 
     @Override
     public void onCreate() {
@@ -99,23 +102,30 @@ public class ENSApplication extends Application {
         return userApi;
     }
 
-    public static Context getAppContext(){
+    public static ContentApi getContentApi() {
+        if (contentApi == null) {
+            contentApi = APIClient.getClient().create(ContentApi.class);
+        }
+        return contentApi;
+    }
+
+    public static Context getAppContext() {
         return ENSApplication.context;
     }
 
-    public static void saveLoggedInUserId(long userId){
-        SharedPrefsUtils.setLongPreference(getAppContext(),"userId",userId);
+    public static void saveLoggedInUserId(long userId) {
+        SharedPrefsUtils.setLongPreference(getAppContext(), "userId", userId);
     }
 
-    public static Long getLoggedInUserId(){
-        return SharedPrefsUtils.getLongPreference(getAppContext(),"userId",0);
+    public static Long getLoggedInUserId() {
+        return SharedPrefsUtils.getLongPreference(getAppContext(), "userId", 0);
     }
 
-    public static void saveLoggedInUser(String userString){
-        SharedPrefsUtils.setStringPreference(getAppContext(),"loggedInUser",userString);
+    public static void saveLoggedInUser(String userString) {
+        SharedPrefsUtils.setStringPreference(getAppContext(), "loggedInUser", userString);
     }
 
-    public static User getLoggedInUser(){
+    public static User getLoggedInUser() {
 
         String loggedInUser = SharedPrefsUtils.getStringPreference(getAppContext(), "loggedInUser");
 
@@ -124,13 +134,13 @@ public class ENSApplication extends Application {
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            Log.e(TAG, "getLoggedInUser: " + e );
+            Log.e(TAG, "getLoggedInUser: " + e);
         }
 
         return null;
     }
 
-    public static boolean isUserLoggedIn(){
-        return SharedPrefsUtils.getBooleanPreference(getAppContext(),"skipLogin",false);
+    public static boolean isUserLoggedIn() {
+        return SharedPrefsUtils.getBooleanPreference(getAppContext(), "skipLogin", false);
     }
 }

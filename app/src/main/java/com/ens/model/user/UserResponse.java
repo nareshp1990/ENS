@@ -24,6 +24,7 @@ public class UserResponse implements Serializable {
     private String profileImageUrl;
     private String fcmRegistrationKey;
     private Gender gender;
+    private UserType userType;
 
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)

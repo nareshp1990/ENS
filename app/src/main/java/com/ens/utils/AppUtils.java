@@ -1,25 +1,54 @@
 package com.ens.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.ens.BuildConfig;
+import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import static android.Manifest.permission.ACCESS_NETWORK_STATE;
+import static android.Manifest.permission.ACCESS_WIFI_STATE;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class AppUtils {
+
+
+    public static final String[] permissions = {READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, CAMERA, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, INTERNET};
+
+    public static final int PERMISSION_REQUEST_CODE = 200;
+
+    public static final int CAMERA_REQUEST_CODE = 1;
+    public static final int GALLERY_REQUEST_CODE = 2;
 
     /**
      * Gets the version name of the application. For e.g. 1.9.3
@@ -119,4 +148,126 @@ public class AppUtils {
         context.startActivity(Intent.createChooser(sendIntent, "Share News Link"));
 
     }
+
+    public static String[] getEnumAsStringArray(Class<? extends Enum<?>> e) {
+        return Arrays.stream(e.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+    }
+
+    public static String[] getContentTypes() {
+        return getEnumAsStringArray(ContentType.class);
+    }
+
+    public static void requestPermission(Activity activity) {
+
+        ActivityCompat.requestPermissions(activity, permissions, PERMISSION_REQUEST_CODE);
+
+    }
+
+    public static boolean checkPermission(Context context) {
+
+        for (String permission : permissions) {
+
+            int selfPermission = ContextCompat.checkSelfPermission(context, permission);
+
+            if (PackageManager.PERMISSION_GRANTED != selfPermission) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    public static boolean isPermissionsGranted(int[] grantResults) {
+
+        for (int grantResult : grantResults) {
+
+            if (PackageManager.PERMISSION_GRANTED != grantResult) {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+    public static void showMessageOKCancel(Context context, String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    public static String selectImage(Activity activity) {
+
+        File imageFile = createImageFile();
+
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("Add Photo!");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (options[item].equals("Take Photo")) {
+
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", imageFile));
+                    activity.startActivityForResult(intent, CAMERA_REQUEST_CODE);
+
+                } else if (options[item].equals("Choose from Gallery")) {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    activity.startActivityForResult(intent, GALLERY_REQUEST_CODE);
+
+                } else if (options[item].equals("Cancel")) {
+
+                    dialog.dismiss();
+
+                }
+            }
+        });
+
+        builder.show();
+
+        return imageFile.getAbsolutePath();
+    }
+
+    public static File createImageFile() {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        //This is the directory in which the file will be created. This is the default location of Camera photos
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "Camera");
+        File image = null;
+        try {
+            image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Save a file: path for using again
+        //"file://" + image.getAbsolutePath();
+        return image;
+    }
+
+    public static boolean hasImage(@NonNull ImageView view) {
+        Drawable drawable = view.getDrawable();
+        boolean hasImage = (drawable != null);
+
+        if (hasImage && (drawable instanceof BitmapDrawable)) {
+            hasImage = ((BitmapDrawable) drawable).getBitmap() != null;
+        }
+
+        return hasImage;
+    }
+
+
 }

@@ -21,4 +21,6 @@ public class User extends DateAudit implements Serializable {
     private String profileImageUrl;
     private String fcmRegistrationKey;
     private UserProfile userProfile;
+    private UserType userType;
+
 }

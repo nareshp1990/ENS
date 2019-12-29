@@ -192,6 +192,7 @@ public class NewsCardDetailedActivity extends AppCompatActivity implements View.
         layoutInstagramShare.setOnClickListener(this);
         layoutWhatsappShare.setOnClickListener(this);
         layoutUnLike.setOnClickListener(this);
+        imgDetailedView.setOnClickListener(this);
 
     }
 
@@ -298,26 +299,32 @@ public class NewsCardDetailedActivity extends AppCompatActivity implements View.
             }
             break;
             case R.id.layoutWhatsappShare: {
-                AppUtils.launchShareIntent(this,coordinatorLayout,newsItem);
+                AppUtils.launchShareIntent(this, coordinatorLayout, newsItem);
                 newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(), newsItemId, ActionType.WHATSAPP);
 
             }
             break;
             case R.id.layoutFacebookShare: {
-                AppUtils.launchShareIntent(this,coordinatorLayout,newsItem);
+                AppUtils.launchShareIntent(this, coordinatorLayout, newsItem);
                 newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(), newsItemId, ActionType.FACEBOOK);
 
             }
             break;
             case R.id.layoutInstagramShare: {
-                AppUtils.launchShareIntent(this,coordinatorLayout,newsItem);
+                AppUtils.launchShareIntent(this, coordinatorLayout, newsItem);
                 newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(), newsItemId, ActionType.INSTAGRAM);
 
             }
             break;
             case R.id.layoutHelloAppShare: {
-                AppUtils.launchShareIntent(this,coordinatorLayout,newsItem);
+                AppUtils.launchShareIntent(this, coordinatorLayout, newsItem);
                 newsService.postNewsItemAction(ENSApplication.getLoggedInUserId(), newsItemId, ActionType.HELLO_APP);
+            }
+            break;
+            case R.id.imgDetailedView: {
+                Intent fullScreenImageViewIntent = new Intent(this, FullScreenImageActivity.class);
+                fullScreenImageViewIntent.putExtra("image_url",newsItem.getImageUrl());
+                startActivity(fullScreenImageViewIntent);
             }
             break;
 

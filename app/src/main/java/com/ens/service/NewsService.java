@@ -6,6 +6,7 @@ import android.util.Log;
 import com.ens.adapters.NewsCardViewAdapter;
 import com.ens.adapters.VideoViewAdapter;
 import com.ens.bus.NewsActionEvent;
+import com.ens.bus.NewsCreatedEvent;
 import com.ens.bus.NewsLoadedEvent;
 import com.ens.config.ENSApplication;
 import com.ens.exception.ApiErrorEvent;
@@ -15,7 +16,9 @@ import com.ens.model.news.ActionType;
 import com.ens.model.news.ContentType;
 import com.ens.model.news.NewsItem;
 import com.ens.model.news.NewsItemAction;
+import com.ens.model.news.NewsItemRequest;
 import com.ens.model.news.ScrollResponse;
+import com.ens.model.news.VideoRequest;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +40,7 @@ public class NewsService {
         this.context = context;
     }
 
-    public void postComment(Long userId, Long newsItemId, String comment){
+    public void postComment(Long userId, Long newsItemId, String comment) {
 
         Call<ApiResponse> apiResponseCall = ENSApplication.getNewsApi().postComment(userId, newsItemId, comment);
 
@@ -62,7 +65,7 @@ public class NewsService {
 
     }
 
-    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType, NewsCardViewAdapter.NewsCardViewHolder holder){
+    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType, NewsCardViewAdapter.NewsCardViewHolder holder) {
 
         Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().postNewsItemAction(userId, newsItemId, actionType);
 
@@ -73,7 +76,7 @@ public class NewsService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Post News Item Action Response : " + response.body().toString());
-                        eventBus.post(new NewsActionEvent(response.body(),holder));
+                        eventBus.post(new NewsActionEvent(response.body(), holder));
                     }
                 }
 
@@ -87,7 +90,7 @@ public class NewsService {
 
     }
 
-    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType, VideoViewAdapter.VideoViewHolder holder){
+    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType, VideoViewAdapter.VideoViewHolder holder) {
 
         Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().postNewsItemAction(userId, newsItemId, actionType);
 
@@ -98,7 +101,7 @@ public class NewsService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Post News Item Action Response : " + response.body().toString());
-                        eventBus.post(new NewsActionEvent(response.body(),holder));
+                        eventBus.post(new NewsActionEvent(response.body(), holder));
                     }
                 }
 
@@ -112,7 +115,7 @@ public class NewsService {
 
     }
 
-    public void getAllNewsItems(Long userId, ContentType contentType, long newsItemId, int page, int size){
+    public void getAllNewsItems(Long userId, ContentType contentType, long newsItemId, int page, int size) {
 
         Set<ContentType> contentTypes = new HashSet<>();
         contentTypes.add(contentType);
@@ -126,7 +129,7 @@ public class NewsService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Get News Items Response : " + response.body().toString());
-                        eventBus.post(new NewsLoadedEvent(contentType,response.body()));
+                        eventBus.post(new NewsLoadedEvent(contentType, response.body()));
                     }
                 }
 
@@ -140,7 +143,7 @@ public class NewsService {
 
     }
 
-    public void getNewsScrollText(Long userId, int page, int size){
+    public void getNewsScrollText(Long userId, int page, int size) {
 
         Call<ScrollResponse> scrollTextResponseCall = ENSApplication.getNewsApi().getNewsScrollText(userId, page, size);
 
@@ -151,7 +154,7 @@ public class NewsService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Get News Scroll Text Response : " + response.body());
-                        eventBus.post(new NewsLoadedEvent(ContentType.SCROLL,response.body().getScrollText()));
+                        eventBus.post(new NewsLoadedEvent(ContentType.SCROLL, response.body().getScrollText()));
                     }
                 }
 
@@ -165,7 +168,7 @@ public class NewsService {
 
     }
 
-    public void getNewsItemUserAction(Long userId, Long newsItemId){
+    public void getNewsItemUserAction(Long userId, Long newsItemId) {
 
         Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().getNewsItemUserActions(userId, newsItemId);
 
@@ -190,7 +193,7 @@ public class NewsService {
 
     }
 
-    public void getNewsItemById(Long userId, Long newsItemId){
+    public void getNewsItemById(Long userId, Long newsItemId) {
 
         Call<NewsItem> responseCall = ENSApplication.getNewsApi().getNewsItemById(userId, newsItemId);
 
@@ -215,7 +218,7 @@ public class NewsService {
 
     }
 
-    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType){
+    public void postNewsItemAction(Long userId, Long newsItemId, ActionType actionType) {
 
         Call<NewsItemAction> newsItemActionResponseCall = ENSApplication.getNewsApi().postNewsItemAction(userId, newsItemId, actionType);
 
@@ -234,6 +237,54 @@ public class NewsService {
 
             @Override
             public void onFailure(Call<NewsItemAction> call, Throwable t) {
+                eventBus.post(new ApiErrorEvent(t));
+            }
+        });
+
+    }
+
+    public void createNews(NewsItemRequest newsItemRequest) {
+
+        Call<ApiResponse> apiResponseCall = ENSApplication.getNewsApi().createNews(ENSApplication.getLoggedInUserId(), newsItemRequest);
+
+        apiResponseCall.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i(TAG, "### Create News Item Response : " + response.body().toString());
+                        eventBus.post(new NewsCreatedEvent(response.body()));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                eventBus.post(new ApiErrorEvent(t));
+            }
+        });
+
+    }
+
+    public void createVideoNews(VideoRequest videoRequest) {
+
+        Call<ApiResponse> apiResponseCall = ENSApplication.getNewsApi().createVideoNews(ENSApplication.getLoggedInUserId(), videoRequest);
+
+        apiResponseCall.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i(TAG, "### Create Video News Item Response : " + response.body().toString());
+                        eventBus.post(new NewsCreatedEvent(response.body()));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
                 eventBus.post(new ApiErrorEvent(t));
             }
         });

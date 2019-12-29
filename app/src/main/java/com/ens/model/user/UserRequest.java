@@ -16,6 +16,7 @@ public class UserRequest implements Serializable {
     private String password;
     private Gender gender;
     private LocalDate dateOfBirth;
+    private UserType userType;
 
     private Long countryId;
     private Long stateId;

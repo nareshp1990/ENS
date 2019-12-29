@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/footerLayout"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="@color/white">
 
 
         <com.google.android.material.appbar.AppBarLayout

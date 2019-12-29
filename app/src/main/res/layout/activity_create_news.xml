@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="Create News"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Content Type">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteContentType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/newsImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:scaleType="fitXY" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/add_image" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="#66000000"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_marginStart="15dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Add Image"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Headline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNewsHeadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNewsDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="10" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutVideoUrl"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Video URL"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNewsVideoUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutYouTubeVideoId"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="YouTube Video Id"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtYouTubeVideoId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Switch
+                android:id="@+id/switchInternational"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="right"
+                android:switchPadding="10dp"
+                android:text="Is International"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Submit"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
