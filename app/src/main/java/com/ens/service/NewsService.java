@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.ens.adapters.NewsCardViewAdapter;
 import com.ens.adapters.VideoViewAdapter;
+import com.ens.bus.CommentPostedEvent;
 import com.ens.bus.CommentsLoadedEvent;
 import com.ens.bus.NewsActionEvent;
 import com.ens.bus.NewsCreatedEvent;
@@ -53,7 +54,7 @@ public class NewsService {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         Log.i(TAG, "### Post Comment Response : " + response.body().toString());
-                        eventBus.post(response.body());
+                        eventBus.post(new CommentPostedEvent(response.body()));
                     }
                 }
 
@@ -293,7 +294,7 @@ public class NewsService {
 
     }
 
-    public void getAllComments(long newsItemId, int page, int size) {
+    public void getAllComments(Long newsItemId, int page, int size) {
 
         Call<PagedResponse<Comment>> pagedResponseCall = ENSApplication.getNewsApi().getAllComments(newsItemId, page, size);
 

@@ -296,6 +296,10 @@ public class NewsCardDetailedActivity extends AppCompatActivity implements View.
             break;
             case R.id.layoutComments: {
 
+                Intent intent = new Intent(this, CommentActivity.class);
+                intent.putExtra("newsItemId",newsItemId);
+                startActivity(intent);
+
             }
             break;
             case R.id.layoutWhatsappShare: {

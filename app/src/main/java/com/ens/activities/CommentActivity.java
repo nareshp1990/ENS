@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ens.R;
 import com.ens.adapters.CommentViewAdapter;
 import com.ens.adapters.listeners.PaginationScrollListener;
+import com.ens.bus.CommentPostedEvent;
 import com.ens.config.ENSApplication;
 import com.ens.model.api.PagedResponse;
 import com.ens.model.news.comment.Comment;
@@ -63,6 +65,8 @@ public class CommentActivity extends AppCompatActivity implements SwipeRefreshLa
 
     private CommentViewAdapter adapter;
 
+    private boolean onRefresh = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +95,8 @@ public class CommentActivity extends AppCompatActivity implements SwipeRefreshLa
         newsItemId = intent.getLongExtra("newsItemId", 0);
         Log.d(TAG, "### NewsItemId :  " + newsItemId);
 
+        page = 0;
+        onRefresh = true;
         loadData(page);
 
     }
@@ -110,12 +116,16 @@ public class CommentActivity extends AppCompatActivity implements SwipeRefreshLa
         newsItemId = intent.getLongExtra("newsItemId", 0);
         Log.d(TAG, "### NewsItemId :  " + newsItemId);
 
+        page = 0;
+        onRefresh = true;
         loadData(page);
 
     }
 
     @Override
     public void onRefresh() {
+        page = 0;
+        onRefresh = true;
         loadData(page);
     }
 
@@ -156,7 +166,7 @@ public class CommentActivity extends AppCompatActivity implements SwipeRefreshLa
 
         progressBar.setVisibility(View.VISIBLE);
 
-        Call<PagedResponse<Comment>> allComments = ENSApplication.getNewsApi().getAllComments(newsItemId, page, 100);
+        Call<PagedResponse<Comment>> allComments = ENSApplication.getNewsApi().getAllComments(newsItemId, page, 50);
 
         allComments.enqueue(new Callback<PagedResponse<Comment>>() {
             @Override
@@ -184,6 +194,11 @@ public class CommentActivity extends AppCompatActivity implements SwipeRefreshLa
         progressBar.setVisibility(View.INVISIBLE);
         isLoading = false;
         if (commentPagedResponse != null) {
+            if (onRefresh) {
+                adapter.clearItems();
+                onRefresh = false;
+                swipeToRefreshLayout.setRefreshing(false);
+            }
             adapter.addItems(commentPagedResponse.getContent());
             if (commentPagedResponse.getPage() + 1 == commentPagedResponse.getTotalPages()) {
                 isLastPage = true;
@@ -203,8 +218,23 @@ public class CommentActivity extends AppCompatActivity implements SwipeRefreshLa
 
                 newsService.postComment(ENSApplication.getLoggedInUserId(), newsItemId, userComment);
 
+                txtComment.setText("");
+
             }
             break;
         }
+    }
+
+    public void onEvent(CommentPostedEvent commentPostedEvent) {
+
+        if (commentPostedEvent != null && commentPostedEvent.getApiResponse() != null) {
+
+            Toast.makeText(this, "Comment Posted Successfully", Toast.LENGTH_LONG).show();
+            page = 0;
+            onRefresh = true;
+            loadData(page);
+
+        }
+
     }
 }

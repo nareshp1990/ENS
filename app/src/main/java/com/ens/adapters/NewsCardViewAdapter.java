@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ens.R;
+import com.ens.activities.CommentActivity;
 import com.ens.activities.NewsCardDetailedActivity;
 import com.ens.bus.NewsActionEvent;
 import com.ens.config.ENSApplication;
@@ -139,7 +140,14 @@ public class NewsCardViewAdapter extends RecyclerView.Adapter<NewsCardViewAdapte
 
             layoutLike.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.LIKE, this));
             layoutUnLike.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.UNLIKE, this));
-            layoutComments.setOnClickListener(v -> postNewsItemAction(newsItem.getNewsItemId(), ActionType.COMMENT, this));
+            layoutComments.setOnClickListener(v -> {
+
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("newsItemId",newsItem.getNewsItemId());
+                context.startActivity(intent);
+
+
+            });
             layoutWhatsappShare.setOnClickListener(v -> {
 
                 AppUtils.launchShareIntent(context, touchViewLayout, newsItem);

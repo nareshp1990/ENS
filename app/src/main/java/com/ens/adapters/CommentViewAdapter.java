@@ -1,6 +1,7 @@
 package com.ens.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
@@ -67,15 +68,20 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
 
             Glide.with(itemView.getContext()).load(comment.getCommentedByProfileImageUrl()).into(createdByCircleImageView);
             txtCreatedOn.setText(DateUtils.asPrettyDateTime(comment.getCreatedOn()));
-            setTextWithSpan(txtUserComment, comment.getCommentedByName(), comment.getComment(), new StyleSpan(android.graphics.Typeface.BOLD));
+            setTextWithSpan(txtUserComment, comment.getCommentedByName(), comment.getComment());
 
         }
 
-        private void setTextWithSpan(TextView textView, String text, String spanText, StyleSpan style) {
-            SpannableStringBuilder sb = new SpannableStringBuilder(text);
-            int start = text.indexOf(spanText);
-            int end = start + spanText.length();
-            sb.setSpan(style, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        private void setTextWithSpan(TextView textView, String text, String spanText) {
+
+
+            final SpannableStringBuilder sb = new SpannableStringBuilder(text).append("  ").append(spanText);
+
+            final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
+            final StyleSpan iss = new StyleSpan(Typeface.NORMAL);
+            sb.setSpan(bss, 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            sb.setSpan(iss, text.length() + 1, sb.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
             textView.setText(sb);
         }
 
@@ -83,6 +89,10 @@ public class CommentViewAdapter extends RecyclerView.Adapter<CommentViewAdapter.
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public void clearItems(){
+        this.comments.clear();
     }
 
     public void addItems(List<Comment> list) {

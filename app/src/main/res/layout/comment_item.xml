@@ -6,7 +6,7 @@
     app:cardCornerRadius="0dp"
     app:cardElevation="0dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
 
         <com.github.abdularis.civ.CircleImageView
             android:id="@+id/createdByCircleImageView"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/img_ens_logo" />
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="విశాఖలోని స్టీల్ ప్లాంట్ లో నిర్వహించే క్వాలిటీ కంట్రోల్ కి సంబంధించి జపాన్ లోని టోక్యోలో నిర్వహించిన ఐసిక్యూసిసి 2019 కి గోల్డ్, సిల్వర్ అవార్డులు వచ్చాయని పర్శనల్ డైరెక్టర్ కెసి దాస్ తెలియజేశారు. "
-                android:textSize="10sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/txtCreatedOn"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="4 Hours ago"
-                android:textSize="8sp" />
+                android:textSize="10sp" />
 
         </LinearLayout>
 
