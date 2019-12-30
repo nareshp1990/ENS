@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.ens.adapters.NewsCardViewAdapter;
 import com.ens.adapters.VideoViewAdapter;
+import com.ens.bus.CommentsLoadedEvent;
 import com.ens.bus.NewsActionEvent;
 import com.ens.bus.NewsCreatedEvent;
 import com.ens.bus.NewsLoadedEvent;
@@ -19,6 +20,7 @@ import com.ens.model.news.NewsItemAction;
 import com.ens.model.news.NewsItemRequest;
 import com.ens.model.news.ScrollResponse;
 import com.ens.model.news.VideoRequest;
+import com.ens.model.news.comment.Comment;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -285,6 +287,31 @@ public class NewsService {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                eventBus.post(new ApiErrorEvent(t));
+            }
+        });
+
+    }
+
+    public void getAllComments(long newsItemId, int page, int size) {
+
+        Call<PagedResponse<Comment>> pagedResponseCall = ENSApplication.getNewsApi().getAllComments(newsItemId, page, size);
+
+        pagedResponseCall.enqueue(new Callback<PagedResponse<Comment>>() {
+            @Override
+            public void onResponse(Call<PagedResponse<Comment>> call, Response<PagedResponse<Comment>> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.i(TAG, "### Get Comments Response : " + response.body().toString());
+                        eventBus.post(new CommentsLoadedEvent(response.body()));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<PagedResponse<Comment>> call, Throwable t) {
                 eventBus.post(new ApiErrorEvent(t));
             }
         });

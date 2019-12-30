@@ -9,6 +9,7 @@ import com.ens.model.news.NewsItemAction;
 import com.ens.model.news.NewsItemRequest;
 import com.ens.model.news.ScrollResponse;
 import com.ens.model.news.VideoRequest;
+import com.ens.model.news.comment.Comment;
 
 import java.util.Set;
 
@@ -48,5 +49,10 @@ public interface NewsApi {
 
     @POST("/v1/api/news/{userId}/video")
     Call<ApiResponse> createVideoNews(@Path("userId") Long userId, @Body VideoRequest videoRequest);
+
+    @GET("/v1/api/news/{newsItemId}/comments")
+    Call<PagedResponse<Comment>> getAllComments(@Path("newsItemId") Long newsItemId, @Query("page") int page, @Query("size") int size);
+
+
 
 }
